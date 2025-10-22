@@ -4,6 +4,8 @@ source "https://rubygems.org"
 gem "rails", "~> 8.0.2", ">= 8.0.2.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
+# Use postgresql as the database for Active Record
+gem "pg", "~> 1.1"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -54,6 +56,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "faker", "~> 3.5"
+  gem "letter_opener_web", "~> 3.0"
 end
 
 group :test do
@@ -71,3 +75,6 @@ gem "pwned"
 gem "omniauth"
 # Provides a mitigation against CVE-2015-9284 [https://github.com/cookpad/omniauth-rails_csrf_protection]
 gem "omniauth-rails_csrf_protection"
+gem "mission_control-jobs"
+gem "ransack", "~> 4.4"
+gem "pagy", "~> 9.4"
