@@ -1,5 +1,5 @@
-class Authentications::EventsController < ApplicationController
+class Authentications::UserActivitiesController < ApplicationController
   def index
-    @events = Current.user.events.order(created_at: :desc)
+    @user_activities = Current.user.user_activities.order(created_at: :desc)
   end
 end

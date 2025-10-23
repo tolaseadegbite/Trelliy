@@ -1,4 +1,4 @@
-class Event < ApplicationRecord
+class UserActivity < ApplicationRecord
   belongs_to :user
 
   before_create do
