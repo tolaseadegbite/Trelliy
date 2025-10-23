@@ -21,8 +21,6 @@ class ContactsController < DashboardController
   def edit
   end
 
-
-
   # POST /contacts
   def create
     @contact = current_user.contacts.new(contact_params)
@@ -30,13 +28,12 @@ class ContactsController < DashboardController
     respond_to do |format|
       if @contact.save
         flash.now[:notice] = "Contact was successfully submitted."
+        # Implicitly renders create.turbo_stream.erb
         format.turbo_stream
       else
         flash.now[:alert] = @contact.errors.full_messages.to_sentence
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update("flash_messages", partial: "layouts/shared/flash"),
-                 status: :unprocessable_entity
-        end
+        # Also implicitly renders create.turbo_stream.erb, but with an error status
+        format.turbo_stream { render status: :unprocessable_entity }
       end
     end
   end
@@ -46,13 +43,12 @@ class ContactsController < DashboardController
     respond_to do |format|
       if @contact.update(contact_params)
         flash.now[:notice] = "Contact was successfully updated."
+        # Implicitly renders update.turbo_stream.erb
         format.turbo_stream
       else
         flash.now[:alert] = @contact.errors.full_messages.to_sentence
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update("flash_messages", partial: "layouts/shared/flash"),
-                 status: :unprocessable_entity
-        end
+        # Also implicitly renders update.turbo_stream.erb, but with an error status
+        format.turbo_stream { render status: :unprocessable_entity }
       end
     end
   end
@@ -60,9 +56,11 @@ class ContactsController < DashboardController
   # DELETE /contacts/1
   def destroy
     @contact.destroy!
+    flash.now[:notice] = "Contact was successfully destroyed."
+
     respond_to do |format|
+      # Implicitly renders destroy.turbo_stream.erb
       format.turbo_stream
-      flash.now[:notice] = "Contact was successfully destroyed."
       format.html { redirect_to contacts_url, status: :see_other, notice: "Contact was successfully destroyed." }
     end
   end

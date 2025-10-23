@@ -1,5 +1,15 @@
 <% if notice.present? %>
-  <div popover class="flash rounded-lg" style="z-index: 9999;" data-controller="element-removal" data-action="animationend->element-removal#remove" role="status"><%= notice %></div>
+  <div popover="manual" class="flash rounded-md"
+       data-controller="flash"
+       data-action="animationend->flash#remove"
+       role="status">
+    <div class="flash__content"><%= notice %></div>
+  </div>
 <% elsif alert.present? %>
-  <div popover class="flash flash--negative rounded-lg" data-controller="element-removal" data-action="animationend->element-removal#remove" role="alert"><%= alert %></div>
+  <div popover="manual" class="flash flash--negative rounded-md"
+       data-controller="flash"
+       data-action="animationend->flash#remove"
+       role="alert">
+    <div class="flash__content"><%= alert %></div>
+  </div>
 <% end %>

@@ -1,2 +1,5 @@
 <%= turbo_stream.remove @contact %>
-<%= turbo_stream.update "flash_messages", partial: "shared/flash" %>
+
+<%= turbo_stream.update "flash_messages",
+      partial: "shared/flash",
+      locals: { notice: flash.now[:notice], alert: flash.now[:alert] } %>

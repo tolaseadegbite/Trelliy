@@ -7,3 +7,4 @@ Pagy::DEFAULT[:limit] = 10
 # Limit extra: Allow the client to request a custom limit per page with an optional selector UI
 # See https://ddnexus.github.io/pagy/docs/extras/limit
 require "pagy/extras/limit"
+require "pagy/extras/keyset"
