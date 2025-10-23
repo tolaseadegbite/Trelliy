@@ -1,0 +1,7 @@
+<%= render @contact %>
+
+<div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
+  <%= link_to "Edit this contact", edit_contact_path(@contact), class: "btn" %>
+  <%= link_to "Back to contacts", contacts_path, class: "btn" %>
+  <%= button_to "Destroy this contact", @contact, method: :delete, class: "btn" %>
+</div>

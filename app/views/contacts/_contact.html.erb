@@ -1,0 +1,52 @@
+<tr id="<%= dom_id(contact) %>">
+  <td><%= check_box_tag "selected_ids[]", contact.id, class: "input", data: { action: "check-all#check", check_all_target: "dependant" } %></td>
+  <td class="whitespace-nowrap">
+    <div class="flex items-center gap">
+      <div class="flex shrink-0 overflow-hidden rounded-full">
+        <%= image_tag "avatar.jpg", size: 32, alt: "User Avatar" %>
+      </div>
+
+      <span class="overflow-ellipsis"><%= contact.first_name.titleize %></span>
+    </div>
+  </td>
+  <td class="whitespace-nowrap">
+    <div class="flex items-center gap">
+      <span><%= contact.last_name.titleize %></span>
+    </div>
+  </td>
+  <td class="whitespace-nowrap">
+    <div class="flex items-center gap">
+      <span><%= contact.email %></span>
+    </div>
+  </td>
+  <td class="whitespace-nowrap">
+    <div class="flex items-center gap">
+      <span class="overflow-ellipsis" style="inline-size: 450px"><%= contact.how_we_met %></span>
+    </div>
+  </td>
+  <td>
+    <div contents data-controller="popover" data-popover-placement-value="bottom-end">
+      <button type="button" class="btn btn--icon btn--subtle" data-popover-target="trigger" popovertarget="popover-<%= contact.id %>" aria-haspopup="true">
+        <span class="icon icon--ellipsis" aria-hidden="true"></span>
+      </button>
+
+      <div popover id="popover-<%= contact.id %>" class="popover" style="--popover-size: 8rem;" data-popover-target="content" role="menu" aria-label="Menu">
+        <div class="menu" data-controller="menu" data-action="keydown->menu#navigate">
+
+          <%= link_to "Edit", edit_contact_path(contact),
+                      class: "btn menu__item w-full text-left",
+                      data: { turbo_frame: "modal" } %>
+
+          <% delete_trigger = button_tag "Delete", type: "button", class: "btn menu__item w-full text-left text-red-500 hover:text-red-600 focus:text-red-600", data: { action: "dialog#showModal", menu_target: "item" }, role: "menuitem" %>
+          <%= modal_dialog delete_trigger, title: "Delete '#{contact.first_name} #{contact.last_name}'?" do %>
+            <p class="text-sm text-subtle mbe-4">This will permanently delete this contact. This action cannot be undone.</p>
+            <div class="flex items-center justify-end gap">
+              <button type="button" class="btn" data-action="click->dialog#close">Cancel</button>
+              <%= button_to "Continue", contact, method: :delete, class: "btn btn--negative" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </td>
+</tr>

@@ -1,0 +1,8 @@
+<% content_for :title, "Edit Contact" %>
+
+<%= render "shared/modal" do %>
+  <div data-action="turbo:submit-end->modal#submitEnd">
+    <h2 class="font-semibold text-2xl mbe-4">Edit contact</h2>
+    <%= render "form", contact: @contact %>
+  </div>
+<% end %>

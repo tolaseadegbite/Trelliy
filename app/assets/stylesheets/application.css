@@ -10,7 +10,9 @@
  */
 
  body {
-  font-size: var(--text-xl);
+   margin: 0;
+   padding: 0;
+  font-size: var(--text-lg);
  }
 
  .cursor-pointer {

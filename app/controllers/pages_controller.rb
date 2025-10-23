@@ -2,9 +2,9 @@ class PagesController < ApplicationController
   skip_before_action :authenticate, only: [ :home, :pricing, :documentation, :help, :privacy, :contact ]
 
   def home
-    # if user_signed_in?
-    #   redirect_to text_to_speech_path
-    # end
+    if user_signed_in?
+      redirect_to contacts_path
+    end
   end
 
   def pricing

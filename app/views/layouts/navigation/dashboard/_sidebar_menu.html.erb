@@ -1,21 +1,22 @@
 <div class="sidebar-menu">
   <%# -- TOP AND MIDDLE SECTIONS (UNCHANGED) -- %>
   <%= link_to root_path, class: "flex items-center gap mbs-4 mis-1" do %>
-    <span class="font-bold">Trellixe</span>
+    <span class="font-bold text-2xl">Trellixe</span>
   <% end %>
 
   <div class="sidebar-menu__content mbs-4">
     <div class="sidebar-menu__group">
+      <div class="sidebar-menu__group-label">MAIN</div>
       <div class="sidebar-menu__items">  
         <nav class="">
           <%= link_to "#", class: "btn sidebar-menu__button mbe-1" do %>
-            <span class="icon icon--home" aria-hidden="true"></span>
+            <span class="icon icon--chart-pie" aria-hidden="true"></span>
             Dashboard
           <% end %>
-          <%= link_to "", 
+          <%= link_to contacts_path, 
                       class: "btn sidebar-menu__button mbe-1", 
-                      aria: (current_page?("") ? { current: "page" } : {}) do %>
-            <span class="icon icon--voices" aria-hidden="true"></span>
+                      aria: (current_page?(contacts_path) ? { current: "page" } : {}) do %>
+            <span class="icon icon--card-sim" aria-hidden="true"></span>
             Contacts
           <% end %>
         </nav>
@@ -58,7 +59,7 @@
 
   <%# Theme switcher popover %>
   <div class="mbs-auto flex flex-col">
-    <%= link_to feedbacks_path, class: "btn sidebar-menu__button mbe-1", aria: (current_page?(feedbacks_path) ? { current: "page" } : {}) do %>
+    <%= link_to "", class: "btn sidebar-menu__button mbe-1", aria: (current_page?("") ? { current: "page" } : {}) do %>
       <span class="icon icon--message-square-text" aria-hidden="true"></span>
       Feedbacks
     <% end %>
@@ -82,6 +83,26 @@
       <% end %>
     </div>
 
+    <%# Notifications Popover %>
+    <div contents 
+       data-controller="popover" 
+       data-popover-placement-value="right-center" 
+       data-action="click@window->popover#clickOutside">
+
+      <%= button_tag type: "button", 
+                    class: "btn sidebar-menu__button mbe-1 display-md", 
+                    data: { action: "click->popover#toggle", popover_target: "trigger" }, 
+                    aria: { haspopup: "true" } do %>
+        <span class="icon icon--bell" aria-hidden="true"></span>
+        Notifications
+      <% end %>
+
+      <%= tag.div popover: true, id: "notifications-popover", class: "popover popover--notifications", style: "--popover-size: 29rem;", data: { popover_target: "content" } do %>
+        
+        <%= render "layouts/navigation/dashboard/notifications_list" %>
+
+      <% end %>
+    </div>
 
     <%# User Profile Popover %>
     <div contents 

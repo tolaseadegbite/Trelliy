@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root "pages#home"
   get  "sign_in", to: "sessions#new"
   post "sign_in", to: "sessions#create"
   get  "sign_up", to: "registrations#new"
@@ -22,12 +23,15 @@ Rails.application.routes.draw do
     resource :passwordless, only: [:new, :edit, :create]
     resource :sudo, only: [:new, :create]
   end
+
+  resources :contacts
+
   get "/home", to: "pages#home", as: :home
   get "/pricing", to: "pages#pricing", as: :pricing
   get "/documentation", to: "pages#documentation", as: :documentation
   get "/help", to: "pages#help", as: :help
   get "/privacy", to: "pages#privacy", as: :privacy
-  get "/contact", to: "pages#contact", as: :contact
+  get "/contact-us", to: "pages#contact", as: :contact_us
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -39,5 +43,4 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "pages#home"
 end
