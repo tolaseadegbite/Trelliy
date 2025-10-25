@@ -11,4 +11,16 @@ module ApplicationHelper
       "#{base_title} | #{page_title}"
     end
   end
+
+  def month_offset(date)
+    date.beginning_of_month.wday - 1
+  end
+
+  def today?(date)
+    date == Date.today
+  end
+
+  def today_class(date)
+    "bg-gray-100-300" if today?(date)
+  end
 end

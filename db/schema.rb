@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_23_174746) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_23_175816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -28,6 +28,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_174746) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_contacts_on_owner"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
+    t.string "name", null: false
+    t.datetime "starts_at", null: false
+    t.integer "duration_in_minutes", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_events_on_owner"
   end
 
   create_table "sessions", force: :cascade do |t|

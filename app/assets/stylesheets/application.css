@@ -18,3 +18,7 @@
  .cursor-pointer {
    cursor: pointer;
  }
+
+ .min-h-24 {
+  min-height: 96px;
+ }

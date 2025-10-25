@@ -1,6 +1,6 @@
-class CreateEvents < ActiveRecord::Migration[8.0]
+class CreateUserActivities < ActiveRecord::Migration[8.0]
   def change
-    create_table :events do |t|
+    create_table :user_activities do |t|
       t.references :user, null: false, foreign_key: true
       t.string :action, null: false
       t.string :user_agent

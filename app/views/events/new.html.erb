@@ -1,0 +1,8 @@
+<% content_for :title, "New Event" %>
+
+<%= render "shared/modal" do %>
+  <div data-action="turbo:submit-end->modal#submitEnd">
+    <h2 class="font-semibold text-2xl mbe-4">Create new event</h2>
+    <%= render "form", event: @event %>
+  </div>
+<% end %>

@@ -1,0 +1,7 @@
+<%= render @event %>
+
+<div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
+  <%= link_to "Edit this event", edit_event_path(@event), class: "btn" %>
+  <%= link_to "Back to events", events_path, class: "btn" %>
+  <%= button_to "Destroy this event", @event, method: :delete, class: "btn" %>
+</div>

@@ -1,46 +1,88 @@
-# Find the first user to assign the contacts to.
-# The `first!` method will raise an error if no user is found, which is
-# good because the script cannot continue without a user.
+puts "🌱 Seeding database..."
+
+# --- 1. Clean up old data ---
+# This ensures a clean slate every time you run the seeds.
+puts "🗑️  Destroying existing Events, Contacts, Users, and Accounts..."
+Event.destroy_all
+Contact.destroy_all
+User.destroy_all
+Account.destroy_all
+puts "✅ Old data destroyed."
+
+
+# --- 2. Create a default Account and User ---
+# The User model requires an Account, so we create one first.
+puts "\n🏢 Creating a default Account..."
+# Since the accounts table has no columns, a simple create is sufficient.
+account = Account.create!
+puts "✅ Default Account created."
+
+puts "\n👤 Creating the default User..."
 begin
-  user = User.first!
-rescue ActiveRecord::RecordNotFound
-  puts "Error: No users found in the database. Please create a user before running the seed."
-  exit
+  # Create the user with the specified details. Using create! will raise an
+  # error if validation fails, which is helpful for debugging seeds.
+  user = User.create!(
+    email: "tolase@test.com",
+    name: "Tolase Kelvin", # The schema has a 'name' column, not first/last name
+    account: account,
+    password: "tolasekelvin",
+    password_confirmation: "tolasekelvin",
+    verified: true # Assuming you want the default user to be verified
+  )
+  puts "✅ Default User 'Tolase Kelvin' created with email 'tolase@test.com'."
+rescue => e
+  puts "❌ Error creating user: #{e.message}"
+  exit # Stop the script if the user can't be created
 end
 
 
-puts "Preparing to create 5,000 contacts for user: #{user.email}..."
+# --- 3. Seed Contacts for the default User ---
+puts "\nPreparing 5,000 contacts..."
 
-# Prepare an array to hold all the contact attributes
 contacts_to_create = []
-
-# Define a set of options for "how_we_met"
 how_we_met_options = ["Networking Event", "Referral", "Social Media", "Cold Outreach", "Inbound Lead"]
 
-# Use `times` to loop 5,000 times
-5000.times do |i|
+5000.times do
   contacts_to_create << {
     owner_type: 'User',
-    owner_id: user.id,
+    owner_id: user.id, # Assign to the user we just created
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    email: Faker::Internet.unique.email, # .unique ensures no duplicates
+    email: Faker::Internet.unique.email,
     phone_number: Faker::PhoneNumber.phone_number,
-    how_we_met: how_we_met_options.sample, # Pick a random value from the array
+    how_we_met: how_we_met_options.sample,
     created_at: Time.current,
     updated_at: Time.current
   }
-  
-  # Print progress every 500 records
-  if (i + 1) % 500 == 0
-    puts "Prepared #{i + 1}/5000 contacts..."
-  end
 end
 
-puts "\nStarting bulk insert of 5,000 contacts. This may take a moment..."
-
-# Use `insert_all` for a single, highly efficient database operation.
-# This is much faster than `Contact.create` in a loop.
+puts "Inserting 5,000 contacts into the database..."
 Contact.insert_all(contacts_to_create)
+puts "✅ 5,000 contacts created."
 
-puts "\n✅ Success! Database has been seeded with 5,000 contacts for #{user.email}."
+
+# --- 4. Seed Events for the default User ---
+puts "\nPreparing 100 events..."
+
+events_to_create = []
+event_names = ["Project Kickoff", "Quarterly Review", "Client Follow-up", "Team Stand-up", "Design Sprint", "Marketing Sync"]
+durations = [15, 30, 45, 60, 90]
+
+100.times do
+  events_to_create << {
+    owner_type: 'User',
+    owner_id: user.id, # Assign to the user we created
+    name: event_names.sample,
+    starts_at: Faker::Time.forward(days: 60, period: :all),
+    duration_in_minutes: durations.sample,
+    created_at: Time.current,
+    updated_at: Time.current
+  }
+end
+
+puts "Inserting 100 events into the database..."
+Event.insert_all(events_to_create)
+puts "✅ 100 events created."
+
+
+puts "\n🎉 Seeding complete!"

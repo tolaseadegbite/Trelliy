@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resource :password_reset,     only: [:new, :edit, :create, :update]
   end
   namespace :authentications do
-    resources :events, only: :index
+    resources :user_activities, only: :index
   end
   get  "/auth/failure",            to: "sessions/omniauth#failure"
   get  "/auth/:provider/callback", to: "sessions/omniauth#create"
@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   end
 
   resources :contacts
+  resources :events
+
+  get "event/month", to: "events#month", as: :event_month
 
   get "/home", to: "pages#home", as: :home
   get "/pricing", to: "pages#pricing", as: :pricing

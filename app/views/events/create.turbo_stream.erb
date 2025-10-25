@@ -1,0 +1,15 @@
+<% if @event.persisted? %>
+  <%= turbo_stream.prepend "events", @event %>
+  
+  <%= turbo_stream.update("new_event_form") { render "form", event: Event.new } %>
+  <turbo-stream action="dispatch_event" name="dialog:close"></turbo-stream>
+
+<% else %>
+  <%= turbo_stream.update "new_event_form" do %>
+    <%= render "form", event: @event %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "flash_messages", 
+      partial: "shared/flash", 
+      locals: { notice: flash.now[:notice], alert: flash.now[:alert] } %>

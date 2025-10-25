@@ -1,0 +1,31 @@
+<div class="flex items-center justify-between p-4">
+  <h2 class="font-semibold text-xl"><%= @date.strftime('%B %Y') %></h2>
+  <div class="flex items-center gap">
+      <%# IMPORTANT: We add view: 'calendar' to the links to maintain the current view state %>
+      <%= link_to events_path(date: @date - 1.month, view: 'calendar'), class: "btn" do %>
+        <span class="icon icon--chevron-left" aria-hidden="true"></span>
+      <% end %>
+      <%= link_to "Today", events_path(view: 'calendar'), class: "btn btn--borderless" %>
+      <%= link_to events_path(date: @date + 1.month, view: 'calendar'), class: "btn" do %>
+        <span class="icon icon--chevron-right" aria-hidden="true"></span>
+      <% end %>
+  </div>
+</div>
+
+<div class="grid grid-cols-7 border border-main rounded-md">
+  <% Date::ABBR_DAYNAMES.each do |weekday| %>
+    <div class="p-2 text-center font-medium text-subtle border-r border-b border-main">
+      <%= weekday %>
+    </div>
+  <% end %>
+
+  <%# Generate all days from the start of the week of the 1st to the end of the week of the last day %>
+  <% (@date.beginning_of_month.beginning_of_week..@date.end_of_month.end_of_week).each do |day| %>
+    <div class="p-2 border text-center border-main min-b-32 <%= 'bg-shade' if day.month != @date.month %> <%= today_class(day) %>">
+      <div class="font-medium <%= 'opacity-50' if day.month != @date.month %>"><%= day.day %></div>
+      <% @events_by_date[day]&.each do |event| %>
+        <%= render event %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

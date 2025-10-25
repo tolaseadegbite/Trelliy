@@ -29,10 +29,10 @@
 
           <%# --- THE FIX: Updated Text to Speech Link --- %>
           <%# Adds `aria-current="page"` if the current page matches the link's path. %>
-          <%= link_to "", 
+          <%= link_to events_path, 
                       class: "btn sidebar-menu__button mbe-1", 
-                      aria: (current_page?("") ? { current: "page" } : {}) do %>
-            <span class="icon icon--audio-lines" aria-hidden="true"></span>
+                      aria: (current_page?("events_path") ? { current: "page" } : {}) do %>
+            <span class="icon icon--calendar-range" aria-hidden="true"></span>
             Events
           <% end %>
           

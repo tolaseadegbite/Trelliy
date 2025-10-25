@@ -14,9 +14,10 @@ class User < ApplicationRecord
 
   has_many :sessions, dependent: :destroy
   has_many :sign_in_tokens, dependent: :destroy
-  has_many :events, dependent: :destroy
+  has_many :user_activities, dependent: :destroy
 
   has_many :contacts, as: :owner, dependent: :destroy
+  has_many :events, as: :owner, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, allow_nil: true, length: { minimum: 12 }
@@ -37,14 +38,14 @@ class User < ApplicationRecord
   end
 
   after_update if: :email_previously_changed? do
-    events.create! action: "email_verification_requested"
+    user_activities.create! action: "email_verification_requested"
   end
 
   after_update if: :password_digest_previously_changed? do
-    events.create! action: "password_changed"
+    user_activities.create! action: "password_changed"
   end
 
   after_update if: [:verified_previously_changed?, :verified?] do
-    events.create! action: "email_verified"
+    user_activities.create! action: "email_verified"
   end
 end

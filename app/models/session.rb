@@ -8,8 +8,8 @@ class Session < ApplicationRecord
     self.sudo_at = Time.current
   end
 
-  after_create  { user.events.create! action: "signed_in" }
-  after_destroy { user.events.create! action: "signed_out" }
+  after_create  { user.user_activities.create! action: "signed_in" }
+  after_destroy { user.user_activities.create! action: "signed_out" }
 
 
   def sudo?
