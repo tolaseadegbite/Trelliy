@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  invitation: one
+  user: one
+  due_at: 2025-10-25 16:03:40
+  completed_at: 2025-10-25 16:03:40
+
+two:
+  invitation: two
+  user: two
+  due_at: 2025-10-25 16:03:40
+  completed_at: 2025-10-25 16:03:40

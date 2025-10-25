@@ -3,27 +3,19 @@
   <%= search_form_for @search, url: events_path do |f| %>
 
     <%# THIS IS THE FIX: Add a hidden field to remember the current view %>
-    <%= hidden_field_tag :view, 'agenda' %>
+    <%= hidden_field_tag :view, 'events-list' %>
 
     <div class="flex items-center gap mbe-6">
       <%= f.search_field :name_cont, placeholder: "Search by event name...", class: "input grow" %>
-      <%= link_to "Reset", events_path(view: "agenda"), class: "btn show@md" if params.has_key?(:q) %>
+      <%= link_to "Reset", events_path(view: "events-list"), class: "btn show@md" if params.has_key?(:q) %>
       <%= f.submit "Search", class: "btn" %>
     </div>
   <% end %>
 
   <%# --- PAGINATED LIST OF EVENTS --- %>
-  <div id="agenda-events" class="flex flex-col gap-3">
+  <div id="events-list" class="flex flex-col gap-3">
     <% if @list_events.any? %>
-      <% @list_events.each do |event| %>
-        <div class="p-4 border border-main rounded-lg">
-          <h3 class="font-semibold"><%= event.name %></h3>
-          <div class="flex items-center justify-between">
-            <p class="text-sm text-subtle"><%= event.starts_at.strftime("%A, %B %d, %Y at %I:%M %p") %></p>
-            <p class="text-sm text-subtle">Ends at: <%= event.ends_at.strftime("%A, %B %d, %Y at %I:%M %p") %>, Duration: <%= pluralize(event.duration_in_minutes, "minute") %></p>
-          </div>
-        </div>
-      <% end %>
+      <%= render partial: "events/event_list_item", collection: @list_events, as: :event %>
     <% else %>
       <div class="p-8 text-center border border-dashed border-main rounded-lg">
         <p class="text-subtle">No events found.</p>
