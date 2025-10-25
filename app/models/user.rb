@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_many :user_activities, dependent: :destroy
 
   has_many :contacts, as: :owner, dependent: :destroy
+  has_many :created_contacts, class_name: 'Contact', foreign_key: 'creator_id', dependent: :destroy
+
   has_many :events, as: :owner, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }

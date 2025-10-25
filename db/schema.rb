@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_23_175816) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_25_144226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_175816) do
     t.text "how_we_met"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "creator_id", null: false
+    t.index ["creator_id"], name: "index_contacts_on_creator_id"
     t.index ["owner_type", "owner_id"], name: "index_contacts_on_owner"
   end
 
@@ -81,6 +83,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_175816) do
     t.index ["name"], name: "index_users_on_name", unique: true
   end
 
+  add_foreign_key "contacts", "users", column: "creator_id"
   add_foreign_key "sessions", "users"
   add_foreign_key "sign_in_tokens", "users"
   add_foreign_key "user_activities", "users"
