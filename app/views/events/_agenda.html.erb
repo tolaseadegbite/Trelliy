@@ -18,7 +18,10 @@
       <% @list_events.each do |event| %>
         <div class="p-4 border border-main rounded-lg">
           <h3 class="font-semibold"><%= event.name %></h3>
-          <p class="text-sm text-subtle"><%= event.starts_at.strftime("%A, %B %d, %Y at %I:%M %p") %></p>
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-subtle"><%= event.starts_at.strftime("%A, %B %d, %Y at %I:%M %p") %></p>
+            <p class="text-sm text-subtle">Ends at: <%= event.ends_at.strftime("%A, %B %d, %Y at %I:%M %p") %>, Duration: <%= pluralize(event.duration_in_minutes, "minute") %></p>
+          </div>
         </div>
       <% end %>
     <% else %>
