@@ -1,13 +1,15 @@
 class Event < ApplicationRecord
   belongs_to :owner, polymorphic: true
 
-  validates :name, presence: true
+  validates :name, :starts_at, :duration_in_minutes, presence: true
   validates :starts_at, presence: true
   validates :duration_in_minutes, presence: true, numericality: { greater_than: 0 }
 
+  has_many :invitations, dependent: :destroy
+  has_many :invited_contacts, through: :invitations, source: :contact
+
   # This is a "virtual attribute". It feels like a database column, but it's calculated.
   def ends_at
-    # The `.minutes` is a helpful Rails duration helper
     starts_at + duration_in_minutes.minutes
   end
 
@@ -17,5 +19,19 @@ class Event < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     []
+  end
+
+  attr_accessor :contact_ids
+
+  after_create :create_invitations_for_contacts
+  after_update :create_invitations_for_contacts
+
+
+  private
+
+  def create_invitations_for_contacts
+    contact_ids&.reject(&:blank?)&.each do |contact_id|
+      self.invitations.create(contact_id: contact_id)
+    end
   end
 end

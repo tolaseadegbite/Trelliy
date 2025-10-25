@@ -62,7 +62,7 @@ class EventsController < DashboardController
     end
 
     def event_params
-      params.expect(event: [ :owner_id, :owner_type, :name, :starts_at, :duration_in_minutes ])
+      params.expect(event: [ :owner_id, :owner_type, :name, :starts_at, :duration_in_minutes, contact_ids: [] ])
     end
 
     def prepare_calendar_data
