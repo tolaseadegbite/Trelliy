@@ -21,9 +21,7 @@
 
   <%= search_form_for @search, class: "flex items-center justify-between gap mbe-4" do |form| %>
     <div class="flex items-center grow gap">
-      <%= form.search_field :first_name_or_last_name_or_email_cont, placeholder: "Filter contacts...", autocomplete: "off", class: "input", style: "max-inline-size: 25vw" %>
-      <%#= form.select :status_eq, %w(backlog todo in_progress done canceled), { include_blank: "Status" }, { class: "input", style: "--input-inline-size: 85px" } %>
-      <%#= form.select :priority_eq, %w(low medium high), { include_blank: "Priority" }, { class: "input", style: "--input-inline-size: 85px" } %>
+      <%= form.search_field :first_name_or_last_name_or_email_cont, placeholder: "Filter contacts...", autocomplete: "off", class: "input" %>
       <%= link_to "Reset", contacts_path, class: "btn show@md" if params.has_key?(:q) %>
     </div>
 

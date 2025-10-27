@@ -21,6 +21,6 @@ module ApplicationHelper
   end
 
   def today_class(date)
-    "bg-gray-100-300" if today?(date)
+    "bg-sky-300" if today?(date)
   end
 end

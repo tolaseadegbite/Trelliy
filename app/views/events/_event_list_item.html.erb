@@ -1,9 +1,11 @@
 <%= tag.div id: dom_id(event), class: "p-4 border border-main rounded-lg" do %>
     <div class="flex items-center gap justify-between">
-        <h3 class="font-semibold"><%= event.name %></h3>
+        <%= link_to event, data: { turbo_frame: "_top" } do %>
+            <h3 class="font-semibold"><%= event.name %></h3>
+        <% end %>
 
         <div contents data-controller="popover" data-popover-placement-value="bottom-end">
-            <button type="button" class="cursor-pointer" data-popover-target="trigger" popovertarget="popover-<%= event.id %>" aria-haspopup="true">
+            <button type="button" class="btn btn--icon btn--subtle" data-popover-target="trigger" popovertarget="popover-<%= event.id %>" aria-haspopup="true">
                 <span class="icon icon--ellipsis" aria-hidden="true"></span>
             </button>
 

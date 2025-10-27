@@ -1,20 +1,23 @@
 class InvitationsController < ApplicationController
   before_action :set_event, only: [:create]
-  before_action :set_invitation, only: [:update]
+  before_action :set_invitation, only: [ :update ]
+  before_action :set_available_contacts, only: [ :create ]
 
   # POST /events/:event_id/invitations
   def create
-    @invitation = @event.invitations.build(invitation_params)
+    contact_ids = params.dig(:invitation, :contact_ids)&.reject(&:blank?)
 
-    respond_to do |format|
-      if @invitation.save
-        format.turbo_stream
-        format.html { redirect_to @event, notice: 'Invitation was successfully created.' }
-      else
-        # If creation fails, re-render the form with errors.
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_invitation_form", partial: "invitations/form", locals: { event: @event, invitation: @invitation }) }
-        format.html { redirect_to @event, alert: 'Failed to create invitation.' }
+    if contact_ids.present?
+      @new_invitations = contact_ids.map do |contact_id|
+        @event.invitations.create(contact_id: contact_id)
       end
+
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to @event, notice: "#{contact_ids.count} invitations sent." }
+      end
+    else
+      redirect_to @event, alert: "No contacts selected."
     end
   end
 
@@ -25,11 +28,11 @@ class InvitationsController < ApplicationController
         create_follow_up_task_if_needed(@invitation)
         # On success, just respond with Turbo Stream. The view will handle the update.
         format.turbo_stream
-        format.html { redirect_to @invitation.event, notice: 'Invitation was successfully updated.' }
+        format.html { redirect_to @invitation.event, notice: "Invitation was successfully updated." }
       else
         # If update fails, re-render the partial with error messages.
         format.turbo_stream { render turbo_stream: turbo_stream.replace(@invitation, partial: "invitations/invitation", locals: { invitation: @invitation }) }
-        format.html { redirect_to @invitation.event, alert: 'Failed to update invitation.' }
+        format.html { redirect_to @invitation.event, alert: "Failed to update invitation." }
       end
     end
   end
@@ -42,19 +45,21 @@ class InvitationsController < ApplicationController
   end
 
   def set_invitation
-    # Ensure a user can only update invitations for events they own.
     @invitation = Invitation.joins(:event).where(events: { owner: current_user }).find(params[:id])
+  end
+
+  def set_available_contacts
+    invited_ids = @event.invitations.pluck(:contact_id)
+    @available_contacts = current_user.contacts.where.not(id: invited_ids).order(:first_name)
   end
 
   def invitation_params
     params.require(:invitation).permit(:contact_id, :status, :notes)
   end
 
-  # This is the core business logic of the application.
   def create_follow_up_task_if_needed(invitation)
     return unless invitation.attended? && invitation.saved_change_to_status?
 
-    # Prevent creating a duplicate task if one somehow already exists.
     return if FollowUpTask.exists?(invitation_id: invitation.id)
 
     # Calculate when the reminder is due.

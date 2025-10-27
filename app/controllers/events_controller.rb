@@ -11,10 +11,29 @@ class EventsController < DashboardController
     @pagy, @list_events = pagy(@search.result)
   end
 
-  def show
-    @invitations = @event.invitations.includes(:contact).order("contacts.first_name ASC")
+  # def show
+  #   @invitations = @event.invitations.includes(:contact).order("contacts.first_name ASC")
+  #   @new_invitation = @event.invitations.build
+  #   invited_contact_ids = @event.invitations.pluck(:contact_id)
+  #   @available_contacts = current_user.contacts.where.not(id: invited_contact_ids).order(:first_name)
+  # end
 
+  def show
+    # Eager load contacts for performance
+    @invitations = @event.invitations.includes(:contact).order("contacts.first_name ASC")
     @new_invitation = @event.invitations.build
+
+    # --- NEW: Pre-calculate stats for the header ---
+    @stats = {
+      accepted: @invitations.select(&:accepted?).count,
+      attended: @invitations.select(&:attended?).count,
+      declined: @invitations.select(&:declined?).count,
+      total: @invitations.count
+    }
+
+    # Prepare the list of contacts who can still be invited
+    invited_contact_ids = @invitations.pluck(:contact_id)
+    @available_contacts = current_user.contacts.where.not(id: invited_contact_ids).order(:first_name)
   end
 
   def new
@@ -51,7 +70,7 @@ class EventsController < DashboardController
     @event.destroy!
     flash.now[:notice] = "Event was successfully destroyed."
     prepare_calendar_data
-    
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to events_url, notice: "Event was successfully destroyed." }
@@ -72,7 +91,7 @@ class EventsController < DashboardController
     # Use the date of the event that was just changed, or fall back to params/today
     # This ensures the calendar re-renders for the correct month.
     @date = @event&.starts_at&.to_date || Date.parse(params.fetch(:date, Date.today.to_s))
-    
+
     events_for_month = current_user.events.where(starts_at: @date.all_month)
     @events_by_date = events_for_month.group_by { |event| event.starts_at.to_date }
   end
