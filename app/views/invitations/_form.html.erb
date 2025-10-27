@@ -1,0 +1,28 @@
+<%= form_with(model: [event, invitation]) do |form| %>
+
+  <% if invitation.errors.any? %>
+    <div style="color: red; margin-bottom: 1rem;">
+      <h2><%= pluralize(invitation.errors.count, "error") %> prohibited this invitation from being saved:</h2>
+      <ul>
+        <% invitation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="margin-bottom: 1rem;">
+    <%= form.label :contact_id, "Select a contact to invite" %>
+
+    <%= form.collection_select :contact_id,
+                                @available_contacts,
+                                :id,
+                                :full_name,
+                                { prompt: "Choose a contact..." },
+                                { class: "input", required: true } %>
+  </div>
+
+  <div>
+    <%= form.submit "Add to Guest List", class: "btn btn--primary" %>
+  </div>
+<% end %>

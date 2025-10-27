@@ -1,7 +1,26 @@
-<%= render @event %>
+<h1><%= @event.name %></h1>
+<p>On <%= @event.starts_at.strftime("%A, %B %d, %Y at %I:%M %p") %></p>
+<p><%= pluralize(@invitations.count, "Guest") %> Invited</p>
+<hr>
 
-<div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
-  <%= link_to "Edit this event", edit_event_path(@event), class: "btn" %>
-  <%= link_to "Back to events", events_path, class: "btn" %>
-  <%= button_to "Destroy this event", @event, method: :delete, class: "btn" %>
-</div>
+<%# --- Guest List --- %>
+<h2>Guest List</h2>
+
+<%= turbo_frame_tag "guest_list" do %>
+  <% if @invitations.any? %>
+    <% @invitations.each do |invitation| %>
+      <%= render invitation %>
+    <% end %>
+  <% else %>
+    <p>No guests have been invited to this event yet.</p>
+  <% end %>
+<% end %>
+
+<hr>
+
+<%# --- Form to Add a New Guest --- %>
+<h3>Invite Another Contact</h3>
+
+<%= turbo_frame_tag "new_invitation_form" do %>
+  <%= render "invitations/form", event: @event, invitation: @new_invitation %>
+<% end %>

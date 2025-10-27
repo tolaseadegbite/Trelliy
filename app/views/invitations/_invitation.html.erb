@@ -1,0 +1,24 @@
+<%= turbo_frame_tag invitation do %>
+  <div class="invitation-card" style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
+    <p><strong><%= invitation.contact.full_name %></strong></p>
+
+    <%= form_with(model: invitation, data: { controller: "autosubmit" }) do |form| %>
+      <div style="margin-bottom: 0.5rem;">
+        <%= form.label :status %>
+    
+        <%= form.select :status,
+                        Invitation.statuses.keys.map { |s| [s.humanize, s] },
+                        {},
+                        { "data-action": "change->autosubmit#submit" } %>
+      </div>
+
+      <div>
+        <%= form.label :notes, "Notes (e.g., 'Switched off', 'Out of town')" %>
+        <%= form.text_area :notes,
+                           rows: 2,
+                           placeholder: "Add context here...",
+                           "data-action": "blur->autosubmit#submit" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

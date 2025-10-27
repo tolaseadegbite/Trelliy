@@ -18,14 +18,17 @@ Rails.application.routes.draw do
   get  "/auth/:provider/callback", to: "sessions/omniauth#create"
   post "/auth/:provider/callback", to: "sessions/omniauth#create"
   post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
-  resource :invitation, only: [:new, :create]
+  # resource :invitation, only: [:new, :create]
   namespace :sessions do
     resource :passwordless, only: [:new, :edit, :create]
     resource :sudo, only: [:new, :create]
   end
 
   resources :contacts
-  resources :events
+  resources :events do
+    resources :invitations, only: [:create], shallow: true
+  end
+  resources :invitations, only: [:update]
 
   get "event/month", to: "events#month", as: :event_month
 

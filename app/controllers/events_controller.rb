@@ -12,6 +12,9 @@ class EventsController < DashboardController
   end
 
   def show
+    @invitations = @event.invitations.includes(:contact).order("contacts.first_name ASC")
+
+    @new_invitation = @event.invitations.build
   end
 
   def new
@@ -36,7 +39,7 @@ class EventsController < DashboardController
   def update
     if @event.update(event_params)
       flash.now[:notice] = "Event was successfully updated."
-      prepare_calendar_data # <<< THE FIX
+      prepare_calendar_data
       render :update
     else
       flash.now[:alert] = @event.errors.full_messages.to_sentence
