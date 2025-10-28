@@ -22,13 +22,13 @@
 
     <%# Right Side: Actions %>
     <div class="flex gap items-center">
-      <%= link_to edit_invitation_path(invitation), class: "btn",
+      <%= link_to edit_invitation_path(invitation), class: "btn text-sm",
                 data: { turbo_frame: "modal" } do %>
         <%= invitation.status.humanize %>
         <span class="icon icon--chevrons-up-down" aria-hidden="true"></span>
       <% end %>
 
-      <% delete_trigger = button_tag "Delete", type: "button", class: "btn text-red-500 hover:text-red-600 focus:text-red-600", data: { action: "dialog#showModal", menu_target: "item" }, role: "menuitem" %>
+      <% delete_trigger = button_tag "Delete", type: "button", class: "btn text-sm text-red-500 hover:text-red-600 focus:text-red-600", data: { action: "dialog#showModal", menu_target: "item" }, role: "menuitem" %>
       <%= modal_dialog delete_trigger, title: "Delete '#{invitation.contact.first_name} #{invitation.contact.last_name}' from invitation list?" do %>
         <p class="text-sm text-subtle mbe-4">This will permanently delete this invitation. This action cannot be undone.</p>
         <div class="flex items-center justify-end gap">

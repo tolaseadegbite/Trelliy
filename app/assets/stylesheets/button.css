@@ -9,8 +9,8 @@
   column-gap: var(--size-2);
   cursor: default;
   display: inline-flex;
-  /* font-size: var(--btn-font-size, var(--text-sm)); */
-  font-size: var(--btn-font-size, var(--text-lg));
+  font-size: var(--btn-font-size, var(--text-sm));
+  /* font-size: var(--btn-font-size, var(--text-lg)); */
   font-weight: var(--btn-font-weight, var(--font-medium));
   inline-size: var(--btn-inline-size, auto);
   justify-content: var(--btn-justify-content, center);

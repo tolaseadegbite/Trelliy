@@ -8,7 +8,7 @@
       </h1>
 
       <div class="border rounded-md p-4 mbe-6 bg-main">
-        <h3 class="font-semibold mbe-2">Context for your outreach:</h3>
+        <h3 class="text-base mbe-2">Context for your outreach:</h3>
         <div class="text-sm text-subtle flex flex-col gap">
           <p><strong>How you met:</strong> <%= @interaction_log.contact.how_we_met %></p>
           <% if @follow_up_task.invitation.notes.present? %>
@@ -19,7 +19,7 @@
 
       <%= form_with(model: [@follow_up_task, @interaction_log]) do |form| %>
         <div class="flex flex-col items-start gap-half mbe-4">
-          <%= form.label :note, "How did it go?", class: "text-lg font-semibold" %>
+          <%= form.label :note, "How did it go?", class: "text-base" %>
           <%= form.text_area :note, rows: 5, class: "input i-full", placeholder: "e.g., 'Called them, had a great chat...'" %>
         </div>
         <div class="flex justify-end gap">

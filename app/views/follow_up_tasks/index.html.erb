@@ -1,15 +1,21 @@
 <% content_for :title, "Pending Follow-Ups" %>
 
 <% content_for :page_header do %>
-  <h1 class="text-xl font-semibold">Pending Follow-Ups</h1>
+  <h1 class="font-semibold">Pending Follow-Ups</h1>
 <% end %>
 
-<div class="bg-surface rounded-lg p-4">
-  <% if @follow_up_tasks.any? %>
-    <div class="flex flex-col">
-      <%= render @follow_up_tasks %>
+<div class="p-4">
+  <%# --- SEARCH AND FILTER FORM --- %>
+  <%= render "follow_up_tasks/search_form" %>
+
+  <%# --- RESULTS LIST --- %>
+  <div class="bg-surface border rounded-md p-4">
+    <div id="follow_up_tasks" class="flex flex-col">
+      <% if @follow_up_tasks.any? %>
+        <%= render @follow_up_tasks %>
+      <% else %>
+        <p class="text-subtle">No pending follow-ups match your search.</p>
+      <% end %>
     </div>
-  <% else %>
-    <p class="text-subtle">Great job! You have no pending follow-ups.</p>
-  <% end %>
+  </div>
 </div>

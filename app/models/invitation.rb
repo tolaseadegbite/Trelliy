@@ -11,4 +11,8 @@ class Invitation < ApplicationRecord
 
   validates :status, presence: true
   validates :contact_id, uniqueness: { scope: :event_id }
+
+  def self.ransackable_attributes(auth_object = nil)
+    [ "event_id" ]
+  end
 end
