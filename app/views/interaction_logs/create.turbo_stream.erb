@@ -1,0 +1,5 @@
+<%= turbo_stream.remove @follow_up_task %>
+
+<%#= turbo_stream.remove "modal" %>
+
+<%= turbo_stream.prepend "flash", partial: "shared/flash", locals: { notice: "Follow-up successfully logged!" } %>

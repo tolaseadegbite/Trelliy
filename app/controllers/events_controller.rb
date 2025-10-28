@@ -11,13 +11,6 @@ class EventsController < DashboardController
     @pagy, @list_events = pagy(@search.result)
   end
 
-  # def show
-  #   @invitations = @event.invitations.includes(:contact).order("contacts.first_name ASC")
-  #   @new_invitation = @event.invitations.build
-  #   invited_contact_ids = @event.invitations.pluck(:contact_id)
-  #   @available_contacts = current_user.contacts.where.not(id: invited_contact_ids).order(:first_name)
-  # end
-
   def show
     # Eager load contacts for performance
     @invitations = @event.invitations.includes(:contact).order("contacts.first_name ASC")

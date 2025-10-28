@@ -57,7 +57,7 @@
 
     <%# --- Separator --- %>
     <div>
-      <h3 class="text-lg font-medium">Invite Contacts</h3>
+      <h3 class="text-lg font-semibold">Invite Contacts</h3>
       <%= turbo_frame_tag "new_invitation_form" do %>
         <%= render "invitations/form", event: @event, invitation: @new_invitation %>
       <% end %>

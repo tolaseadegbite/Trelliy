@@ -30,6 +30,10 @@ Rails.application.routes.draw do
   end
   resources :invitations, only: [:update, :edit, :destroy]
 
+   resources :follow_up_tasks, only: [:index] do
+    resources :interaction_logs, only: [:new, :create], shallow: true
+  end
+
   get "event/month", to: "events#month", as: :event_month
 
   get "/home", to: "pages#home", as: :home

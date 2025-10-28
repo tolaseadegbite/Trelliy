@@ -34,6 +34,7 @@ img.icon {
 .icon--eye { --svg: url("eye.svg"); }
 .icon--mail { --svg: url("mail.svg"); }
 .icon--phone { --svg: url("phone.svg"); }
+.icon--list-checks { --svg: url("list-checks.svg"); }
 .icon--chevrons-up-down { --svg: url("chevrons-up-down.svg"); }
 .icon--menu { --svg: url("menu.svg"); }
 .icon--x { --svg: url("x.svg"); }

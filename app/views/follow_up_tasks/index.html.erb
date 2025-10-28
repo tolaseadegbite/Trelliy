@@ -1,0 +1,15 @@
+<% content_for :title, "Pending Follow-Ups" %>
+
+<% content_for :page_header do %>
+  <h1 class="text-xl font-semibold">Pending Follow-Ups</h1>
+<% end %>
+
+<div class="bg-surface rounded-lg p-4">
+  <% if @follow_up_tasks.any? %>
+    <div class="flex flex-col">
+      <%= render @follow_up_tasks %>
+    </div>
+  <% else %>
+    <p class="text-subtle">Great job! You have no pending follow-ups.</p>
+  <% end %>
+</div>

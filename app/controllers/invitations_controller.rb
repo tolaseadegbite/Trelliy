@@ -1,4 +1,4 @@
-class InvitationsController < ApplicationController
+class InvitationsController < DashboardController
   before_action :set_event, only: [:create]
   before_action :set_invitation, only: [ :edit, :update, :destroy ]
   before_action :set_available_contacts, only: [ :create ]
@@ -73,14 +73,21 @@ class InvitationsController < ApplicationController
   end
 
   def create_follow_up_task_if_needed(invitation)
+    # Guard clauses to ensure we only create a task when needed.
     return unless invitation.attended? && invitation.saved_change_to_status?
-
     return if FollowUpTask.exists?(invitation_id: invitation.id)
 
-    # Calculate when the reminder is due.
-    # For MVP, we can hardcode this. Later, this would read from user settings.
+    # Calculate the event's end time.
     event_end_time = invitation.event.starts_at + invitation.event.duration_in_minutes.minutes
-    due_date = event_end_time.tomorrow.beginning_of_day + 9.hours # Next day at 9 AM
+
+    # --- ENVIRONMENT-SPECIFIC LOGIC ---
+    if Rails.env.development?
+      # We are on our local machine, so set the reminder for 1 minute from now.
+      due_date = 1.minute.from_now
+    else
+      # We are in production (or any other environment), so use the real logic.
+      due_date = event_end_time.tomorrow.beginning_of_day + 9.hours
+    end
 
     FollowUpTask.create!(
       invitation: invitation,

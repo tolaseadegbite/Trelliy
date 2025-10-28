@@ -1,0 +1,2 @@
+module FollowUpTasksHelper
+end

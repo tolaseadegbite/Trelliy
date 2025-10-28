@@ -4,8 +4,8 @@
 
     <%# Left Side: invitation Info %>
     <div class="flex-col">
-      <%= link_to invitation.contact, class: "flex gap items-center", data: { turbo_frame: "_top" } do %>
-        <div class="flex shrink-0 overflow-hidden rounded-full">
+      <%= link_to invitation.contact, class: "flex gap items-start", data: { turbo_frame: "_top" } do %>
+        <div class="flex shrink-0 overflow-hidden rounded-full border border-subtle">
           <%= image_tag "avatar.jpg", size: 40, alt: "User Avatar border border-main" %>
         </div>
         <div>
