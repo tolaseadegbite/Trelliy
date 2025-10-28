@@ -3,7 +3,7 @@
   <div class="flex items-start justify-between gap pbe-4 mbe-4 border-be border-main">
 
     <%# Left Side: invitation Info %>
-    <div class="flex-col">
+    <div class="flex flex-col">
       <%= link_to invitation.contact, class: "flex gap items-start", data: { turbo_frame: "_top" } do %>
         <div class="flex shrink-0 overflow-hidden rounded-full border border-subtle">
           <%= image_tag "avatar.jpg", size: 40, alt: "User Avatar border border-main" %>
@@ -21,21 +21,30 @@
     </div>
 
     <%# Right Side: Actions %>
-    <div class="flex gap items-center">
-      <%= link_to edit_invitation_path(invitation), class: "btn text-sm",
-                data: { turbo_frame: "modal" } do %>
-        <%= invitation.status.humanize %>
+    <div class="flex flex-col gap shrink-0" style="inline-size: 8rem;">
+
+      <%= link_to edit_invitation_path(invitation),
+                  class: "btn inline-flex items-center justify-between i-full",
+                  data: { turbo_frame: "modal" } do %>
+        <span class="whitespace-nowrap"><%= invitation.status.humanize %></span>
         <span class="icon icon--chevrons-up-down" aria-hidden="true"></span>
       <% end %>
 
-      <% delete_trigger = button_tag "Delete", type: "button", class: "btn text-sm text-red-500 hover:text-red-600 focus:text-red-600", data: { action: "dialog#showModal", menu_target: "item" }, role: "menuitem" %>
-      <%= modal_dialog delete_trigger, title: "Delete '#{invitation.contact.first_name} #{invitation.contact.last_name}' from invitation list?" do %>
+      <% delete_trigger = button_tag "Delete",
+                                    type: "button",
+                                    class: "btn text-negative i-full",
+                                    data: { action: "dialog#showModal", menu_target: "item" },
+                                    role: "menuitem" %>
+
+      <%= modal_dialog delete_trigger, title: "Delete '#{invitation.contact.full_name}' from invitation list?" do %>
         <p class="text-sm text-subtle mbe-4">This will permanently delete this invitation. This action cannot be undone.</p>
         <div class="flex items-center justify-end gap">
           <button type="button" class="btn" data-action="click->dialog#close">Cancel</button>
           <%= button_to "Continue", invitation, method: :delete, class: "btn btn--negative" %>
         </div>
       <% end %>
+
     </div>
+
   </div>
 <% end %>
