@@ -18,7 +18,7 @@
       <p class="text-sm text-subtle"><%= @event.starts_at.strftime("%A, %B %d, %Y from %I:%M %p") %> to <%= @event.ends_at.strftime("%I:%M %p") %></p>
     </div>
     <%# --- At-a-Glance Stats --- %>
-    <div class="flex flex-wrap items-center gap text-center">
+    <div class="flex flex-wrap items-center justify-center gap text-center">
       <div>
         <p class="text-xl font-semibold"><%= @stats[:accepted] %></p>
         <p class="text-xs uppercase text-subtle">Accepted</p>
