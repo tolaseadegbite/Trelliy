@@ -1,14 +1,14 @@
 <%= form_with(model: [event, invitation], class: "flex flex-col items-start gap") do |form| %>
 
   <% if invitation.errors.any? %>
-    <div class="text-negative text-sm">
+    <div class="text-negative">
       <%# Simplified error display %>
       <%= invitation.errors.full_messages.to_sentence %>
     </div>
   <% end %>
 
   <div class="flex flex-col items-start gap-half i-full">
-    <%= form.label :contact_ids, "Select contacts to invite", class: "text-sm font-medium" %>
+    <%= form.label :contact_ids, "Select contacts to invite", class: "font-medium leading-none" %>
     <%= form.collection_select :contact_ids,
                                 @available_contacts,
                                 :id,
@@ -18,6 +18,6 @@
   </div>
 
   <div class="self-start">
-    <%= form.submit "Add to Guest List", class: "btn btn--primary" %>
+    <%= form.submit "Add to Invitation List", class: "btn btn--primary" %>
   </div>
 <% end %>

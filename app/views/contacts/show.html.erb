@@ -3,14 +3,10 @@
 <% content_for :page_header do %>
   <div class="flex items-center justify-between i-full">
     <%# --- Breadcrumb --- %>
-    <div class="flex items-center gap-half text-sm">
+    <div class="text-base">
       <%= link_to "Contacts", contacts_path, class: "text-subtle hover:text-primary" %>
       <span class="text-subtle">/</span>
       <span class="text-primary overflow-ellipsis"><%= @contact.full_name %></span>
-    </div>
-    <%# --- Action Button --- %>
-    <div>
-      <%= link_to "Edit Contact", edit_contact_path(@contact), data: { turbo_frame: "modal" }, class: "btn btn--secondary" %>
     </div>
   </div>
 <% end %>
@@ -21,7 +17,7 @@
   <%# --- Left Column (Main Content) --- %>
   <div class="flex flex-col gap col-span-12 col-span-8@md">
 
-    <%# --- "How We Met" Section --- %>
+    <%# --- "Profile/How We Met" Section --- %>
     <div class="bg-surface flex items-start gap-5 rounded-md p-6 border">
 
       <div class="flex shrink-0 overflow-hidden rounded-full mbs-2">
@@ -31,7 +27,7 @@
       <div>
         <h1 class="text-3xl font-semibold"><%= @contact.full_name %></h1>
         <h2 class="text-lg font-medium mbe-1">How We Met</h2>
-        <p class="text-base text-subtle break-words"><%= @contact.how_we_met.presence || "No context has been added yet." %></p>
+        <p class="text-sm text-subtle break-words"><%= @contact.how_we_met.presence || "No context has been added yet." %></p>
       </div>
     </div>
 

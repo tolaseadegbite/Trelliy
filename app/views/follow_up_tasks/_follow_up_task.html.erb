@@ -14,8 +14,8 @@
 
   <%# --- Right Side: The Due Date Information --- %>
   <div class="text-end shrink-0">
-    <p class="text-sm font-medium text-negative">Due</p>
-    <p class="text-xs text-subtle"><%= time_ago_in_words(follow_up_task.due_at) %> ago</p>
+    <p class="text-sm font-medium text-red-400">Due</p>
+    <p class="text-sm text-subtle"><%= time_ago_in_words(follow_up_task.due_at) %> ago</p>
   </div>
 
 <% end %>
