@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
   before_action :set_event, only: [:create]
-  before_action :set_invitation, only: [ :update ]
+  before_action :set_invitation, only: [ :edit, :update, :destroy ]
   before_action :set_available_contacts, only: [ :create ]
 
   # POST /events/:event_id/invitations
@@ -21,6 +21,10 @@ class InvitationsController < ApplicationController
     end
   end
 
+  # GET /invitations/:id/edit
+  def edit
+  end
+
   # PATCH/PUT /invitations/:id
   def update
     respond_to do |format|
@@ -37,15 +41,26 @@ class InvitationsController < ApplicationController
     end
   end
 
+  # DELETE /invitations/:id
+  def destroy
+    @invitation.destroy!
+
+    respond_to do |format|
+      # This Turbo Stream will find the invitation's frame and remove it from the page.
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@invitation) }
+      format.html { redirect_to @invitation.event, notice: 'Invitation was successfully removed.' }
+    end
+  end
+
   private
 
   def set_event
-    # Assuming events are owned by the current user in the MVP
     @event = current_user.events.find(params[:event_id])
   end
 
   def set_invitation
     @invitation = Invitation.joins(:event).where(events: { owner: current_user }).find(params[:id])
+    @event = @invitation.event
   end
 
   def set_available_contacts

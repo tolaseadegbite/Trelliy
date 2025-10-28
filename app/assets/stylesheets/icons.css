@@ -31,6 +31,9 @@ img.icon {
 .icon--chevrons-right { --svg: url("chevrons-right.svg"); }
 .icon--chevron-right { --svg: url("chevron-right.svg"); }
 .icon--ellipsis { --svg: url("ellipsis.svg"); }
+.icon--eye { --svg: url("eye.svg"); }
+.icon--mail { --svg: url("mail.svg"); }
+.icon--phone { --svg: url("phone.svg"); }
 .icon--chevrons-up-down { --svg: url("chevrons-up-down.svg"); }
 .icon--menu { --svg: url("menu.svg"); }
 .icon--x { --svg: url("x.svg"); }

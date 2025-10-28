@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   resources :events do
     resources :invitations, only: [:create], shallow: true
   end
-  resources :invitations, only: [:update]
+  resources :invitations, only: [:update, :edit, :destroy]
 
   get "event/month", to: "events#month", as: :event_month
 

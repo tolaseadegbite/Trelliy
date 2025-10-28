@@ -1,0 +1,8 @@
+<% content_for :title, "Edit Invitation" %>
+
+<%= render "shared/modal" do %>
+  <div data-action="turbo:submit-end->modal#submitEnd">
+    <h2 class="font-semibold text-2xl mbe-4">Edit Invitation for <%= @invitation.contact.full_name %></h2>
+    <%= render "edit_form", invitation: @invitation %>
+  </div>
+<% end %>

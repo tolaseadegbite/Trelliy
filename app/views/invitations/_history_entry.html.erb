@@ -1,0 +1,16 @@
+<%= link_to invitation.event, class: "block p-3 rounded-md border-be hover:bg-shade" do %>
+  <div class="flex items-center justify-between">
+    <div class="flex-col min-i-0"> <%# min-i-0 prevents text overflow issues in flexbox %>
+      <p class="font-medium text-primary overflow-ellipsis"><%= invitation.event.name %></p>
+      <p class="text-sm text-subtle"><%= invitation.event.starts_at.strftime("%B %d, %Y") %></p>
+
+      <% if invitation.notes.present? %>
+        <p class="text-sm text-subtle"><span class="text-semibold">Note: </span><%= invitation.notes %></p>
+      <% end %>
+
+    </div>
+    <span class="badge badge--<%= invitation.status %> text-sm capitalize shrink-0">
+      <%= invitation.status %>
+    </span>
+  </div>
+<% end %>

@@ -30,6 +30,10 @@
     </div>
   </td>
   <td>
+    <%= link_to contact, class: "btn btn--icon btn--subtle", data: { turbo_frame: "_top" } do %>
+      <span class="icon icon--eye" aria-hidden="true"></span>
+    <% end %>
+
     <div contents data-controller="popover" data-popover-placement-value="bottom-end">
       <button type="button" class="btn btn--icon btn--subtle" data-popover-target="trigger" popovertarget="popover-<%= contact.id %>" aria-haspopup="true">
         <span class="icon icon--ellipsis" aria-hidden="true"></span>

@@ -68,7 +68,15 @@ class ContactsController < DashboardController
   private
 
     def set_contact
-      @contact = current_user.contacts.find(params[:id])
+      # Eager load all necessary associations in one go for high performance.
+      @contact = current_user.contacts.includes(
+        invitations: :event, # Load all invitations AND their associated event
+        interaction_logs: :user # Load all interaction logs AND the user who made them
+      ).find(params[:id])
+
+      # For convenience in the view, let's pre-sort the associations.
+      @invitations = @contact.invitations.sort_by { |inv| inv.event.starts_at }.reverse
+      @interaction_logs = @contact.interaction_logs.order(created_at: :desc)
     end
 
     def contact_params

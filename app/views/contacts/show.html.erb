@@ -1,7 +1,86 @@
-<%= render @contact %>
+<% content_for :title, "Trellixe - #{@contact.full_name}" %>
 
-<div class="flex flex-wrap items-center gap mbs-6" style="--row-gap: .5rem">
-  <%= link_to "Edit this contact", edit_contact_path(@contact), class: "btn" %>
-  <%= link_to "Back to contacts", contacts_path, class: "btn" %>
-  <%= button_to "Destroy this contact", @contact, method: :delete, class: "btn" %>
+<% content_for :page_header do %>
+  <div class="flex items-center justify-between i-full">
+    <%# --- Breadcrumb --- %>
+    <div class="flex items-center gap-half text-sm">
+      <%= link_to "Contacts", contacts_path, class: "text-subtle hover:text-primary" %>
+      <span class="text-subtle">/</span>
+      <span class="text-primary overflow-ellipsis"><%= @contact.full_name %></span>
+    </div>
+    <%# --- Action Button --- %>
+    <div>
+      <%= link_to "Edit Contact", edit_contact_path(@contact), data: { turbo_frame: "modal" }, class: "btn btn--secondary" %>
+    </div>
+  </div>
+<% end %>
+
+<%# --- Main Page Container --- %>
+<div class="grid grid-cols-1 grid-cols-12@md gap-4 p-4">
+
+  <%# --- Left Column (Main Content) --- %>
+  <div class="flex flex-col gap col-span-12 col-span-8@md">
+
+    <%# --- "How We Met" Section --- %>
+    <div class="bg-surface flex items-start gap-5 rounded-md p-6 border">
+
+      <div class="flex shrink-0 overflow-hidden rounded-full mbs-2">
+        <%= image_tag "avatar.jpg", size: "50", alt: "User Avatar", class: "border border-main rounded-full" %>
+      </div>
+
+      <div>
+        <h1 class="text-3xl font-semibold"><%= @contact.full_name %></h1>
+        <h2 class="text-lg font-medium mbe-1">How We Met</h2>
+        <p class="text-base text-subtle break-words"><%= @contact.how_we_met.presence || "No context has been added yet." %></p>
+      </div>
+    </div>
+
+    <%# --- Interaction Log Section --- %>
+    <div class="bg-surface rounded-md p-6 border">
+      <h2 class="text-xl font-semibold mbe-4">Interaction Log</h2>
+      <% if @interaction_logs.any? %>
+        <div class="flex flex-col gap">
+          <% @interaction_logs.each do |log| %>
+            <%= render 'interaction_logs/log_entry', log: log %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-subtle">There are no follow-up notes for this contact yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <%# --- Right Column (Sidebar Info) --- %>
+  <%# This column will span all 12 columns on mobile, and 4 of 12 on medium+ screens. %>
+  <div class="flex flex-col gap col-span-12 col-span-4@md">
+
+    <%# --- Core Details Section --- %>
+    <div class="bg-surface rounded-md border p-6">
+      <h3 class="text-xl font-semibold mbe-4">Contact Details</h3>
+      <div class="flex flex-col gap text-sm">
+        <div class="flex items-center gap-half">
+          <span class="icon icon--mail text-subtle" aria-hidden="true"></span>
+          <span class="text-primary break-all"><%= @contact.email.presence || "No email" %></span>
+        </div>
+        <div class="flex items-center gap-half">
+          <span class="icon icon--phone text-subtle" aria-hidden="true"></span>
+          <span class="text-primary whitespace-nowrap"><%= @contact.phone_number.presence || "No phone number" %></span>
+        </div>
+      </div>
+    </div>
+
+    <%# --- Event History Section --- %>
+    <div class="bg-surface rounded-md p-6 border">
+      <h3 class="text-xl font-semibold mbe-4">Event History</h3>
+      <% if @invitations.any? %>
+        <div class="flex flex-col gap">
+          <% @invitations.each do |invitation| %>
+            <%= render 'invitations/history_entry', invitation: invitation %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-subtle">This contact hasn't been invited to any events.</p>
+      <% end %>
+    </div>
+  </div>
 </div>
