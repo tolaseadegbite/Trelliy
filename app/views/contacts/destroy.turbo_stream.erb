@@ -1,5 +1,7 @@
-<%= turbo_stream.remove @contact %>
+<%# 1. Remove the table row by its unique ID %>
+<%= turbo_stream.remove dom_id(@contact, :table_row) %>
 
-<%= turbo_stream.update "flash_messages",
-      partial: "shared/flash",
-      locals: { notice: flash.now[:notice], alert: flash.now[:alert] } %>
+<%# 2. Remove the card by its unique ID %>
+<%= turbo_stream.remove dom_id(@contact, :card) %>
+
+<%= turbo_stream.update "flash_messages", partial: "shared/flash", locals: { notice: flash.now[:notice], alert: flash.now[:alert] } %>

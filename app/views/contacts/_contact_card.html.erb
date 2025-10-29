@@ -1,0 +1,49 @@
+<%# This is the card view for a single contact, visible on mobile screens. %>
+<%# We add a suffix to the dom_id to keep it unique from the table row's ID. %>
+<div id="<%= dom_id(contact, :card) %>" class="bg-surface border rounded-md p-3 flex items-center gap mb-4">
+
+  <%# --- Checkbox and Avatar --- %>
+  <div class="flex items-center gap shrink-0">
+    <%= check_box_tag "selected_ids[]", contact.id, class: "input cursor-pointer", data: { action: "check-all#check", check_all_target: "dependant" } %>
+    <div class="flex shrink-0 overflow-hidden rounded-full">
+      <%= link_to image_tag("avatar.jpg", size: "40x40", alt: "User Avatar"), contact_path(contact), data: { turbo_frame: "_top" } %>
+    </div>
+  </div>
+
+  <%# --- Contact Info (takes up remaining space) --- %>
+  <div class="flex flex-col grow min-i-0">
+    <div class="flex items-center justify-between">
+      <span class="font-semibold overflow-ellipsis"><%= link_to contact.full_name.titleize, contact, data: { turbo_frame: "_top" } %></span>
+      
+      <%# --- Action Buttons --- %>
+      <div class="flex gap items-center shrink-0">
+        <%= link_to contact, class: "btn btn--icon btn--subtle", data: { turbo_frame: "_top" } do %>
+          <span class="icon icon--eye" aria-hidden="true"></span>
+        <% end %>
+        
+        <%# This popover is identical to the one in the table view %>
+        <div contents data-controller="popover" data-popover-placement-value="bottom-end">
+          <button type="button" class="btn btn--icon btn--subtle" data-popover-target="trigger" popovertarget="popover-card-<%= contact.id %>" aria-haspopup="true">
+            <span class="icon icon--ellipsis" aria-hidden="true"></span>
+          </button>
+
+          <div popover id="popover-card-<%= contact.id %>" class="popover" style="--popover-size: 8rem;" data-popover-target="content" role="menu" aria-label="Menu">
+            <div class="menu" data-controller="menu" data-action="keydown->menu#navigate">
+              <%= link_to "Edit", edit_contact_path(contact), class: "btn menu__item w-full text-left", data: { turbo_frame: "modal" } %>
+              <% delete_trigger = button_tag "Delete", type: "button", class: "btn menu__item w-full text-left text-red-500", data: { action: "dialog#showModal", menu_target: "item" }, role: "menuitem" %>
+              <%= modal_dialog delete_trigger, title: "Delete '#{contact.full_name}'?" do %>
+                <p class="text-sm text-subtle mbe-4">This action cannot be undone.</p>
+                <div class="flex items-center justify-end gap">
+                  <button type="button" class="btn" data-action="click->dialog#close">Cancel</button>
+                  <%= button_to "Continue", contact, method: :delete, class: "btn btn--negative" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <span class="text-sm text-subtle overflow-ellipsis"><%= contact.email %></span>
+  </div>
+</div>

@@ -1,5 +1,5 @@
-<tr id="<%= dom_id(contact) %>">
-  <td><%= check_box_tag "selected_ids[]", contact.id, class: "input", data: { action: "check-all#check", check_all_target: "dependant" } %></td>
+<tr id="<%= dom_id(contact, :table_row) %>">
+  <td><%= check_box_tag "selected_ids[]", contact.id, class: "input cursor-pointer", data: { action: "check-all#check", check_all_target: "dependant" } %></td>
   <td class="whitespace-nowrap">
     <div class="flex items-center gap">
       <div class="flex shrink-0 overflow-hidden rounded-full">
@@ -29,7 +29,7 @@
       <span class="overflow-ellipsis" style="inline-size: 350px"><%= contact.how_we_met %></span>
     </div>
   </td>
-  <td>
+  <td class="flex gap-4 items-center justify-end">
     <%= link_to contact, class: "btn btn--icon btn--subtle", data: { turbo_frame: "_top" } do %>
       <span class="icon icon--eye" aria-hidden="true"></span>
     <% end %>

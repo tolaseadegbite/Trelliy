@@ -1,0 +1,8 @@
+<%= search_form_for @search, class: "flex items-center justify-between gap mbe-4" do |form| %>
+    <div class="flex items-center grow gap">
+      <%= form.search_field :first_name_or_last_name_or_email_cont, placeholder: "Filter contacts...", autocomplete: "off", class: "input" %>
+      <%= link_to "Reset", contacts_path, class: "btn" if params.has_key?(:q) %>
+    </div>
+
+    <%= form.submit "Search", class: "btn" %>
+  <% end %>
