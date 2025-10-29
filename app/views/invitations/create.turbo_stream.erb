@@ -17,3 +17,5 @@
       For now, let's just reset the form. %>-->
   <%= render "invitations/form", event: @event, invitation: @event.invitations.build %>
 <% end %>
+
+<%= turbo_stream.update "flash_messages", partial: "shared/flash", locals: { notice: flash.now[:notice], alert: flash.now[:alert] } %>

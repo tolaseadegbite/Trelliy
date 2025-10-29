@@ -7,6 +7,8 @@ class Event < ApplicationRecord
 
   has_many :invitations, dependent: :destroy
   has_many :invited_contacts, through: :invitations, source: :contact
+  has_many :follow_up_tasks, through: :invitations
+  has_many :interaction_logs, through: :follow_up_tasks
 
   # This is a "virtual attribute". It feels like a database column, but it's calculated.
   def ends_at

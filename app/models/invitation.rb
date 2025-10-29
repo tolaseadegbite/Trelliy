@@ -1,6 +1,8 @@
 class Invitation < ApplicationRecord
   belongs_to :contact
   belongs_to :event
+  has_many :follow_up_tasks
+  has_many :interaction_logs, through: :follow_up_tasks
 
   enum :status, {
     invited: 0,

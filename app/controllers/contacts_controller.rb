@@ -10,6 +10,8 @@ class ContactsController < DashboardController
 
   # GET /contacts/1
   def show
+    # The @contact, @invitations, and @general_interaction_logs
+    # instance variables are all set by the `set_contact` before_action.
   end
 
   # GET /contacts/new
@@ -28,11 +30,9 @@ class ContactsController < DashboardController
     respond_to do |format|
       if @contact.save
         flash.now[:notice] = "Contact was successfully submitted."
-        # Implicitly renders create.turbo_stream.erb
         format.turbo_stream
       else
         flash.now[:alert] = @contact.errors.full_messages.to_sentence
-        # Also implicitly renders create.turbo_stream.erb, but with an error status
         format.turbo_stream { render status: :unprocessable_entity }
       end
     end
@@ -43,11 +43,9 @@ class ContactsController < DashboardController
     respond_to do |format|
       if @contact.update(contact_params)
         flash.now[:notice] = "Contact was successfully updated."
-        # Implicitly renders update.turbo_stream.erb
         format.turbo_stream
       else
         flash.now[:alert] = @contact.errors.full_messages.to_sentence
-        # Also implicitly renders update.turbo_stream.erb, but with an error status
         format.turbo_stream { render status: :unprocessable_entity }
       end
     end
@@ -59,7 +57,6 @@ class ContactsController < DashboardController
     flash.now[:notice] = "Contact was successfully destroyed."
 
     respond_to do |format|
-      # Implicitly renders destroy.turbo_stream.erb
       format.turbo_stream
       format.html { redirect_to contacts_url, status: :see_other, notice: "Contact was successfully destroyed." }
     end
@@ -67,19 +64,20 @@ class ContactsController < DashboardController
 
   private
 
+    # Updated set_contact method
     def set_contact
-      # Eager load all necessary associations in one go for high performance.
-      @contact = current_user.contacts.includes(
-        invitations: :event, # Load all invitations AND their associated event
-        interaction_logs: :user # Load all interaction logs AND the user who made them
-      ).find(params[:id])
+      @contact = current_user.contacts.find(params[:id])
 
-      # For convenience in the view, let's pre-sort the associations.
-      @invitations = @contact.invitations.sort_by { |inv| inv.event.starts_at }.reverse
-      @interaction_logs = @contact.interaction_logs.order(created_at: :desc)
+      # Eager-load the entire chain of associations in one efficient query:
+      # Contact -> Invitations -> Event
+      #              Invitations -> FollowUpTasks -> InteractionLogs
+      @invitations = @contact.invitations.includes(
+        :event,
+        follow_up_tasks: :interaction_logs
+      ).sort_by { |inv| inv.event.starts_at }.reverse
     end
 
     def contact_params
-      params.expect(contact: [ :owner_id, :owner_type, :first_name, :last_name, :email, :phone_number, :how_we_met ])
+      params.require(:contact).permit(:first_name, :last_name, :email, :phone_number, :how_we_met)
     end
 end

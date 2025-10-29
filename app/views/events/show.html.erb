@@ -39,7 +39,14 @@
   </div>
 
   <%# --- Main Content Area: Invitation List and Invite Form --- %>
-  <div class="flex flex-col gap bg-surface rounded-md border p-6">
+  <div class="flex flex-col gap bg-surface rounded-md border pi-6">
+    
+    <div class="border-be border-main pb-6">
+      <h3 class="text-lg font-semibold">Invite Contacts</h3>
+      <%= turbo_frame_tag "new_invitation_form" do %>
+        <%= render "invitations/form", event: @event, invitation: @new_invitation %>
+      <% end %>
+    </div>
 
     <%# --- Invitation List Section --- %>
     <div>
@@ -52,14 +59,6 @@
         <% else %>
           <p class="text-sm text-subtle">No guests have been invited to this event yet.</p>
         <% end %>
-      <% end %>
-    </div>
-
-    <%# --- Separator --- %>
-    <div>
-      <h3 class="text-lg font-semibold">Invite Contacts</h3>
-      <%= turbo_frame_tag "new_invitation_form" do %>
-        <%= render "invitations/form", event: @event, invitation: @new_invitation %>
       <% end %>
     </div>
   </div>
