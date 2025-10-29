@@ -45,7 +45,7 @@
     </div>
 
     <%# --- MOBILE VIEW: Cards (Hidden on medium screens and up) --- %>
-    <div class="hide@md flex flex-col mbe-4" data-controller="check-all">
+    <div class="hide@md flex flex-col" data-controller="check-all">
       <div class="flex items-center gap-half p-2">
         <%= check_box_tag "check_all_mobile", nil, false, {
               class: "input cursor-pointer",
@@ -63,7 +63,6 @@
       </div>
     </div>
 
-    <%# Pagination is now outside the responsive divs so it's always visible %>
-    <%= render "contacts/pagination" %>
+    <%= render "shared/pagination", pagy: @pagy %>
   <% end %>
 </div>
