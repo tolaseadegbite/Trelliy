@@ -14,7 +14,7 @@
 
         <%# 1. The Omni-Search Bar %>
         <div class="col-span-1 col-span-2@md">
-          <%= f.label :contact_first_name_or_contact_last_name_or_contact_email_or_event_name_cont, "Search", class: "text-sm font-medium" %>
+          <%#= f.label :contact_first_name_or_contact_last_name_or_contact_email_or_event_name_cont, "Search", class: "text-sm font-medium" %>
           <%= f.search_field :contact_first_name_or_contact_last_name_or_contact_email_or_event_name_cont,
                               class: "input i-full mbs-2",
                               placeholder: "Search by name, email, or event..." %>
@@ -22,12 +22,12 @@
 
         <%# 2. The Event Filter Dropdown %>
         <div>
-          <%= f.label :event_id_eq, "Filter by Event", class: "text-sm font-medium" %>
+          <%#= f.label :event_id_eq, "Filter by Event", class: "text-sm font-medium" %>
           <%= f.collection_select :invitation_event_id_eq,
                             @filterable_events,
                             :id,
                             :name,
-                            { include_blank: 'All Events' },
+                            { include_blank: 'Filter by Events' },
                             { class: "i-full mbs-2", data: { controller: "combobox" } } %>
         </div>
       </div>

@@ -19,15 +19,25 @@
 
     <%# --- Left Column (Profile) --- %>
     <div class="col-span-12 col-span-8@md">
-      <div class="bg-surface flex items-start gap-5 rounded-md p-4 border h-full">
-        <div class="flex shrink-0 overflow-hidden rounded-full mbs-2">
-          <%= image_tag "avatar.jpg", size: "70", alt: "User Avatar", class: "border border-main rounded-full" %>
+      <div class="bg-surface flex justify-between rounded-md p-4 border h-full">
+        <div class="flex items-start gap-5">
+          <div class="flex shrink-0 overflow-hidden rounded-full mbs-2">
+            <%= image_tag "avatar.jpg", size: "70", alt: "User Avatar", class: "border border-main rounded-full" %>
+          </div>
+
+          <div>
+            <h1 class="text-3xl font-semibold mbe-2"><%= @contact.full_name %></h1>
+            <h2 class="font-medium mbe-1">How We Met:</h2>
+            <p class="text-sm text-subtle break-words"><%= @contact.how_we_met.presence || "No context has been added yet." %></p>
+          </div>
         </div>
-        <div>
-          <h1 class="text-3xl font-semibold"><%= @contact.full_name %></h1>
-          <h2 class="text-lg font-medium mbe-1">How We Met</h2>
-          <p class="text-sm text-subtle break-words"><%= @contact.how_we_met.presence || "No context has been added yet." %></p>
-        </div>
+
+          <%= link_to edit_contact_path(@contact), class: "flex items-start", data: { turbo_frame: "modal" } do %>
+            <span class="btn btn--icon rounded-full">
+              <span class="icon icon--pen" aria-hidden="true"></span>
+            </span>
+          <% end %>
+
       </div>
     </div>
 

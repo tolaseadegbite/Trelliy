@@ -3,20 +3,20 @@
         
         <%# --- Search by Contact Name/Email --- %>
         <div>
-            <%= f.label :contact_first_name_or_contact_last_name_or_contact_email_cont, "Search by Contact", class: "font-medium" %>
+            <%#= f.label :contact_first_name_or_contact_last_name_or_contact_email_cont, "Search by Contact", class: "font-medium" %>
             <%= f.search_field :contact_first_name_or_contact_last_name_or_contact_email_cont,
-                                placeholder: "Name or email...",
+                                placeholder: "Search by contact's name or email...",
                                 class: "input i-full mbs-1" %>
         </div>
 
         <%# --- Filter by Status --- %>
         <div>
-            <%= f.label :status_eq, "Filter by Status", class: "font-medium" %>
+            <%#= f.label :status_eq, "Filter by Status", class: "font-medium" %>
             <%# Creates a dropdown from your Invitation enum %>
             <%= f.select :status_eq,
                         Invitation.statuses.keys.map { |status| [status.humanize, status] },
-                        { include_blank: 'Any Status' },
-                        { class: "input i-full mbs-1" } %>
+                        { include_blank: 'Filter by invitation status' },
+                        { class: "i-full mbs-1", data: { controller: "combobox" } } %>
         </div>
 
     </div>

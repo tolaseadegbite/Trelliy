@@ -36,7 +36,7 @@
                                     data: { action: "dialog#showModal", menu_target: "item" },
                                     role: "menuitem" %>
 
-      <%= modal_dialog delete_trigger, title: "Delete '#{invitation.contact.full_name}' from invitation list?" do %>
+      <%= modal_dialog delete_trigger, size: "450px", title: "Delete '#{invitation.contact.full_name}' from invitation list?" do %>
         <p class="text-sm text-subtle mbe-4">This will permanently delete this invitation. This action cannot be undone.</p>
         <div class="flex items-center justify-end gap">
           <button type="button" class="btn" data-action="click->dialog#close">Cancel</button>

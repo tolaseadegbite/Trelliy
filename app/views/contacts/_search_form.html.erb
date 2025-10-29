@@ -14,30 +14,30 @@
 
         <%# 1. Omni-Search Bar (Now includes 'how_we_met') %>
         <div class="col-span-12 col-span-4@lg">
-          <%= f.label :first_name_or_last_name_or_email_or_how_we_met_cont, "Name, Email, or Context", class: "font-medium" %>
+          <%#= f.label :first_name_or_last_name_or_email_or_how_we_met_cont, "Name, Email, or Context", class: "font-medium" %>
           <%= f.search_field :first_name_or_last_name_or_email_or_how_we_met_cont,
-                             placeholder: "Search...",
+                             placeholder: "Search name, Email, or Context...",
                              class: "input i-full mbs-1" %>
         </div>
 
         <%# 2. Date Created Range %>
         <div class="col-span-6 col-span-2@lg">
-          <%= f.label :created_at_gteq, "Added After", class: "font-medium" %>
-          <%= f.date_field :created_at_gteq, class: "i-full mbs-1", data: { controller: "datepicker" } %>
+          <%#= f.label :created_at_gteq, "Added After", class: "font-medium" %>
+          <%= f.date_field :created_at_gteq, placeholder: "Added after...", class: "i-full mbs-1", data: { controller: "datepicker" } %>
         </div>
         <div class="col-span-6 col-span-2@lg">
-          <%= f.label :created_at_lteq, "Added Before", class: "font-medium" %>
-          <%= f.date_field :created_at_lteq, class: "i-full mbs-1", data: { controller: "datepicker" } %>
+          <%#= f.label :created_at_lteq, "Added Before", class: "font-medium" %>
+          <%= f.date_field :created_at_lteq, placeholder: "Added before...", class: "i-full mbs-1", data: { controller: "datepicker" } %>
         </div>
 
         <%# 3. Event Filter Dropdown %>
         <div class="col-span-12 col-span-4@lg">
-          <%= f.label :events_id_eq, "Invited to Event", class: "font-medium" %>
+          <%#= f.label :events_id_eq, "Invited to Event", class: "font-medium" %>
           <%= f.collection_select :events_id_eq,
                                   @filterable_events,
                                   :id,
                                   :name,
-                                  { include_blank: 'Any Event' },
+                                  { include_blank: 'Event you invited them to' },
                                   { class: "i-full mbs-1", data: { controller: "combobox" } } %>
         </div>
       </div>

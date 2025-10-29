@@ -32,6 +32,7 @@ img.icon {
 .icon--chevron-right { --svg: url("chevron-right.svg"); }
 .icon--ellipsis { --svg: url("ellipsis.svg"); }
 .icon--eye { --svg: url("eye.svg"); }
+.icon--pen { --svg: url("pen.svg"); }
 .icon--message-square-text { --svg: url("message-square-text.svg"); }
 .icon--mail { --svg: url("mail.svg"); }
 .icon--phone { --svg: url("phone.svg"); }
