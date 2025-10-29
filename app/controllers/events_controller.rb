@@ -6,9 +6,16 @@ class EventsController < DashboardController
     events_for_month = current_user.events.where(starts_at: @date.all_month)
     @events_by_date = events_for_month.group_by { |event| event.starts_at.to_date }
 
+    if params[:q].present? && params[:q][:starts_at_lteq].present?
+      end_date = Date.parse(params[:q][:starts_at_lteq]).end_of_day
+      params[:q][:starts_at_lteq] = end_date
+    end
+
     records = current_user.events.order(starts_at: :asc)
     @search = records.ransack(params[:q])
-    @pagy, @list_events = pagy(@search.result)
+    @pagy, @list_events = pagy(@search.result.includes(:invited_contacts))
+
+    @filterable_contacts = current_user.contacts.order(:first_name, :last_name)
   end
 
   def show

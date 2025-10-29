@@ -23,35 +23,6 @@
   min-height: 96px;
  }
 
- /* --- Styling for the Toggleable Search Form --- */
-
-/* 1. Remove the default triangle/arrow marker from all <details> elements */
-details > summary {
-  list-style: none; /* For Firefox */
-}
-
-details > summary::-webkit-details-marker {
-  display: none; /* For Chrome, Safari, etc. */
-}
-
-/* 2. Style the <details> container itself */
-details {
-  /* This prevents a small "jump" when the content appears */
-  overflow: hidden;
-}
-
-/* 3. Animate the transition when the [open] attribute is added/removed */
-details[open] > *:not(summary) {
-  animation: sweep-in 0.3s ease-in-out;
-}
-
-@keyframes sweep-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+ .hide {
+  display: none;
 }

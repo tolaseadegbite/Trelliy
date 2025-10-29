@@ -12,14 +12,20 @@
     <h1 class="font-semibold text-2xl">Events</h1>
     <%= link_to "New Event", new_event_path, class: "btn btn--primary text-md", data: { turbo_frame: "modal" } %>
   </div>
+  
+  <nav class="tabs__list mbe-4" aria-label="Events list and calendar" style="max-inline-size: 400px">
+    <%# The Events list tab is "current" if the view is anything other than 'calendar' %>
+    <%= link_to "Events list",
+                events_path(view: 'events-list', q: params.permit(q: [:name_cont, :starts_at_gteq, :starts_at_lteq, :invited_contacts_id_eq])),
+                class: "btn tabs__button",
+                **(params[:view] != 'calendar' ? { aria: { current: "page" } } : {}) %>
 
-  <div class="flex items-center">
-    <%= link_to "Events list", events_path(view: 'events-list', q: params.permit(:q => [:name_cont])),
-              class: "p-4 font-medium #{params[:view] != 'calendar' ? 'border-b-2 border-primary' : 'text-subtle'}" %>
-
-    <%= link_to "Calendar", events_path(view: 'calendar'),
-                class: "p-4 font-medium #{params[:view] == 'calendar' ? 'border-b-2 border-primary' : 'text-subtle'}" %>
-  </div>
+    <%# The Calendar tab is "current" only if the view is 'calendar' %>
+    <%= link_to "Calendar",
+                events_path(view: 'calendar'),
+                class: "btn tabs__button",
+                **(params[:view] == 'calendar' ? { aria: { current: "page" } } : {}) %>
+  </nav>
 
   <%= turbo_frame_tag "event_view" do %>
   <% if params[:view] == 'calendar' %>

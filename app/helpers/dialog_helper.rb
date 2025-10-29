@@ -7,7 +7,7 @@ module DialogHelper
   # - size:    The max-width of the dialog (e.g., '500px').
   # - &block:  The content to be rendered inside the dialog body.
   #
-  def modal_dialog(trigger, title: nil, label: nil, size: "430px", &block)
+  def modal_dialog(trigger, title: nil, label: nil, size: nil, &block)
     # The 'capture' method takes the block from the view and renders it as a string.
     content = capture(&block) if block
 

@@ -20,7 +20,7 @@ class Event < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    []
+    %w[ invited_contacts ]
   end
 
   attr_accessor :contact_ids
