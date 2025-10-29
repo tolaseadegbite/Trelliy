@@ -6,6 +6,7 @@ class ContactsController < DashboardController
     records = current_user.contacts.order(created_at: :desc)
     @search = records.ransack(params[:q])
     @pagy, @contacts = pagy(@search.result)
+    @filterable_events = current_user.events.order(:name)
   end
 
   # GET /contacts/1

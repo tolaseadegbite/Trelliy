@@ -16,7 +16,7 @@ class Event < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[ name starts_at duration_in_minutes owner ]
+    %w[ id name starts_at duration_in_minutes owner ]
   end
 
   def self.ransackable_associations(auth_object = nil)

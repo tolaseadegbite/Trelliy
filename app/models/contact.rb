@@ -16,11 +16,11 @@ class Contact < ApplicationRecord
 
   # == Methods =====================
   def self.ransackable_attributes(auth_object = nil)
-    %w[ id first_name last_name email phone_number created_at updated_at ]
+    %w[ id first_name last_name email phone_number how_we_met created_at updated_at ]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    [] # You might want to add 'events' or 'invitations' here later for Ransack
+    %w[ events ]
   end
 
   def full_name

@@ -1,8 +1,52 @@
-<%= search_form_for @search, class: "flex items-center justify-between gap mbe-4" do |form| %>
-    <div class="flex items-center grow gap">
-      <%= form.search_field :first_name_or_last_name_or_email_cont, placeholder: "Filter contacts...", autocomplete: "off", class: "input" %>
-      <%= link_to "Reset", contacts_path, class: "btn" if params.has_key?(:q) %>
-    </div>
+<div class=""
+     data-controller="search-filter"
+     data-action="click@window->search-filter#closeOnClickOutside">
 
-    <%= form.submit "Search", class: "btn" %>
-  <% end %>
+  <%# Button to toggle the visibility of the filters %>
+  <button type="button" class="btn btn--subtle mbe-4" data-action="search-filter#toggle">
+    <span class="icon icon--search"></span>
+    <span>Search contacts</span>
+  </button>
+
+  <div class="hide mbe-4 p-4 bg-surface border rounded-md" data-search-filter-target="filters">
+    <%= search_form_for @search, url: contacts_path do |f| %>
+      <div class="grid grid-cols-1 grid-cols-12@md gap-4 mbe-6">
+
+        <%# 1. Omni-Search Bar (Now includes 'how_we_met') %>
+        <div class="col-span-12 col-span-4@lg">
+          <%= f.label :first_name_or_last_name_or_email_or_how_we_met_cont, "Name, Email, or Context", class: "font-medium" %>
+          <%= f.search_field :first_name_or_last_name_or_email_or_how_we_met_cont,
+                             placeholder: "Search...",
+                             class: "input i-full mbs-1" %>
+        </div>
+
+        <%# 2. Date Created Range %>
+        <div class="col-span-6 col-span-2@lg">
+          <%= f.label :created_at_gteq, "Added After", class: "font-medium" %>
+          <%= f.date_field :created_at_gteq, class: "i-full mbs-1", data: { controller: "datepicker" } %>
+        </div>
+        <div class="col-span-6 col-span-2@lg">
+          <%= f.label :created_at_lteq, "Added Before", class: "font-medium" %>
+          <%= f.date_field :created_at_lteq, class: "i-full mbs-1", data: { controller: "datepicker" } %>
+        </div>
+
+        <%# 3. Event Filter Dropdown %>
+        <div class="col-span-12 col-span-4@lg">
+          <%= f.label :events_id_eq, "Invited to Event", class: "font-medium" %>
+          <%= f.collection_select :events_id_eq,
+                                  @filterable_events,
+                                  :id,
+                                  :name,
+                                  { include_blank: 'Any Event' },
+                                  { class: "i-full mbs-1", data: { controller: "combobox" } } %>
+        </div>
+      </div>
+
+      <%# --- Form Actions --- %>
+      <div class="flex items-center gap">
+        <%= link_to "Reset", contacts_path, class: "btn" if params.has_key?(:q) %>
+        <%= f.submit "Search", class: "btn btn--primary mis-auto" %>
+      </div>
+    <% end %>
+  </div>
+</div>
