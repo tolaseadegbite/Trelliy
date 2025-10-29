@@ -1,0 +1,28 @@
+<%# This form searches invitations within the context of a specific contact %>
+<%= search_form_for search_object, url: contact_path(contact) do |f| %>
+  <div class="grid grid-cols-1 grid-cols-2@md gap-4 mbe-4">
+    
+    <%# --- Search by Event Name --- %>
+    <div>
+      <%#= f.label :event_name_cont, "Search by Event Name", class: "font-medium" %>
+      <%= f.search_field :event_name_cont,
+                         placeholder: "Name...",
+                         class: "input i-full" %>
+    </div>
+
+    <%# --- Filter by Status --- %>
+    <div>
+      <%#= f.label :status_eq, "Filter by Status", class: "font-medium" %>
+      <%= f.select :status_eq,
+                   Invitation.statuses.map { |name, value| [name.humanize, value] },
+                   { include_blank: 'Filter by Status' },
+                   { class: "i-full", data: { controller: "combobox" } } %>
+    </div>
+  </div>
+
+  <%# --- Form Actions --- %>
+  <div class="flex items-center gap">
+    <%= f.submit "Search", class: "btn btn--primary" %>
+    <%= link_to "Reset", contact_path(contact), class: "btn" if params.has_key?(:q) %>
+  </div>
+<% end %>

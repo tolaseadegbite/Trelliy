@@ -14,9 +14,9 @@
             <%#= f.label :status_eq, "Filter by Status", class: "font-medium" %>
             <%# Creates a dropdown from your Invitation enum %>
             <%= f.select :status_eq,
-                        Invitation.statuses.keys.map { |status| [status.humanize, status] },
-                        { include_blank: 'Filter by invitation status' },
-                        { class: "i-full mbs-1", data: { controller: "combobox" } } %>
+               Invitation.statuses.map { |name, value| [name.humanize, value] },
+               { include_blank: 'Filter by invitation status' },
+               { class: "i-full mbs-1", data: { controller: "combobox" } } %>
         </div>
 
     </div>

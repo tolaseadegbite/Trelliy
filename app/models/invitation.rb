@@ -21,6 +21,6 @@ class Invitation < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     # Allow searching through the associated contact
-    %w[contact]
+    %w[contact event]
   end
 end

@@ -62,15 +62,22 @@
   <%# --- SECTION 2: The full-width Event History --- %>
   <div class="bg-surface rounded-md p-4 border">
     <h3 class="text-xl font-semibold mbe-4">Event History</h3>
-    <% if @invitations.any? %>
-      <div class="flex flex-col gap-y-4">
-        <% @invitations.each do |invitation| %>
-          <%= render 'invitations/history_entry_with_logs', invitation: invitation %>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="text-sm text-subtle">This contact hasn't been invited to any events.</p>
+
+    <%= render 'invitations/history_search_form', search_object: @history_search, contact: @contact %>
+
+    <%= turbo_frame_tag "event_history_list" do %>
+      <% if @invitations.any? %>
+        <div class="flex flex-col gap-y-4 mbs-4">
+          <% @invitations.each do |invitation| %>
+            <%= render 'invitations/history_entry_with_logs', invitation: invitation %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-subtle text-center p-8">This contact has not been invited to any events that match your search.</p>
+      <% end %>
+
+      <%= render "shared/pagination", pagy: @pagy %>
     <% end %>
   </div>
 
-</div> <%# --- End of Main Page Flex Container --- %>
+</div>

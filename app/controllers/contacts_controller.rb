@@ -65,17 +65,25 @@ class ContactsController < DashboardController
 
   private
 
-    # Updated set_contact method
     def set_contact
       @contact = current_user.contacts.find(params[:id])
 
-      # Eager-load the entire chain of associations in one efficient query:
-      # Contact -> Invitations -> Event
-      #              Invitations -> FollowUpTasks -> InteractionLogs
-      @invitations = @contact.invitations.includes(
+      # 1. Define the base query for the contact's invitations
+      base_invitations = @contact.invitations.includes(
         :event,
         follow_up_tasks: :interaction_logs
-      ).sort_by { |inv| inv.event.starts_at }.reverse
+      )
+
+      # 2. Apply Ransack search to the base query
+      # Using a unique name to avoid conflicts with other search objects
+      @history_search = base_invitations.ransack(params[:q])
+
+      # 3. Get the full list of filtered invitations (before pagination)
+      filtered_invitations = @history_search.result
+
+      # 4. NOW, apply pagination to the filtered and sorted list
+      # Sorting by the event's start date is most logical for a history view
+      @pagy, @invitations = pagy(filtered_invitations.order("events.starts_at DESC"))
     end
 
     def contact_params
