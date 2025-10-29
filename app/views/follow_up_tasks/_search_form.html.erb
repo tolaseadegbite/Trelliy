@@ -41,7 +41,7 @@
                   class: "btn #{is_all_active ? 'btn--primary' : 'btn--secondary border border-main'}" %>
       
       <%= link_to "Overdue", follow_up_tasks_path(q: base_params.merge(due_at_lt: Time.current)),
-                  class: "btn text-negative #{is_overdue_active ? 'btn--primary' : 'btn--secondary border border-main'}" %>
+                  class: "btn text-red-400 #{is_overdue_active ? 'btn--primary' : 'btn--secondary border border-main'}" %>
 
       <%= link_to "Due Today", follow_up_tasks_path(q: base_params.merge(
                                                         due_at_gteq: Time.current.beginning_of_day,
@@ -54,6 +54,6 @@
     <div class="flex items-center justify-end gap mbs-4">
       <%# Using the simpler `params[:q].present?` check is cleaner %>
       <%= link_to "Reset All", follow_up_tasks_path, class: "btn" if params[:q].present? %>
-      <%= f.submit "Search", class: "btn btn--primary" %>
+      <%= f.submit "Search", class: "btn" %>
     </div>
 <% end %>

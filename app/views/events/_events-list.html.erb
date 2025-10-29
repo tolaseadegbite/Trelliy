@@ -7,7 +7,7 @@
 
     <div class="flex items-center gap mbe-6">
       <%= f.search_field :name_cont, placeholder: "Search by event name...", class: "input grow" %>
-      <%= link_to "Reset", events_path(view: "events-list"), class: "btn show@md" if params.has_key?(:q) %>
+      <%= link_to "Reset", events_path(view: "events-list"), class: "btn" if params.has_key?(:q) %>
       <%= f.submit "Search", class: "btn" %>
     </div>
   <% end %>
