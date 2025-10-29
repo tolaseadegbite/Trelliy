@@ -19,20 +19,31 @@ class EventsController < DashboardController
   end
 
   def show
-    # Eager load contacts for performance
-    @invitations = @event.invitations.includes(:contact).order("contacts.first_name ASC")
-    @new_invitation = @event.invitations.build
+    # The base of our query is all invitations for the current event
+    base_invitations = @event.invitations.includes(:contact)
 
-    # --- NEW: Pre-calculate stats for the header ---
+    # Apply Ransack search to the base query
+    @invitations_search = base_invitations.ransack(params[:q])
+
+    # Get the full list of filtered invitations (before pagination)
+    filtered_invitations = @invitations_search.result
+    # --------------------------------
+
+    # --- Calculate stats based on the FILTERED list ---
+    # This ensures stats are accurate for the current search results
     @stats = {
-      accepted: @invitations.select(&:accepted?).count,
-      attended: @invitations.select(&:attended?).count,
-      declined: @invitations.select(&:declined?).count,
-      total: @invitations.count
+      accepted: filtered_invitations.select(&:accepted?).count,
+      attended: filtered_invitations.select(&:attended?).count,
+      declined: filtered_invitations.select(&:declined?).count,
+      total: filtered_invitations.count
     }
 
-    # Prepare the list of contacts who can still be invited
-    invited_contact_ids = @invitations.pluck(:contact_id)
+    # --- NOW, apply pagination to the filtered list for display ---
+    @pagy, @invitations = pagy(filtered_invitations.order("contacts.first_name ASC"))
+
+    # This part for the form remains the same
+    @new_invitation = @event.invitations.build
+    invited_contact_ids = @event.invitations.pluck(:contact_id) # Pluck from original event
     @available_contacts = current_user.contacts.where.not(id: invited_contact_ids).order(:first_name)
   end
 

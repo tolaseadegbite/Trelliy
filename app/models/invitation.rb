@@ -15,6 +15,12 @@ class Invitation < ApplicationRecord
   validates :contact_id, uniqueness: { scope: :event_id }
 
   def self.ransackable_attributes(auth_object = nil)
-    [ "event_id" ]
+    # Allow searching by status and event_id
+    %w[status event_id]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    # Allow searching through the associated contact
+    %w[contact]
   end
 end

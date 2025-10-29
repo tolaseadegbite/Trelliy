@@ -51,14 +51,20 @@
     <%# --- Invitation List Section --- %>
     <div>
       <h2 class="text-xl font-semibold mbe-4">Invitation List Management</h2>
+
+      <%= render "invitations/search_form" %>
+
       <%= turbo_frame_tag "guest_list" do %>
         <% if @invitations.any? %>
           <% @invitations.each do |invitation| %>
             <%= render invitation %>
           <% end %>
         <% else %>
-          <p class="text-sm text-subtle">No guests have been invited to this event yet.</p>
+          <p class="text-sm text-subtle text-center p-8">No guests match your search criteria.</p>
         <% end %>
+
+        <%# --- ADD THE PAGINATION CONTROLS HERE (INSIDE the turbo frame) --- %>
+        <%= render "shared/pagination", pagy: @pagy %>
       <% end %>
     </div>
   </div>
