@@ -56,7 +56,7 @@
 
     <%# 2. Call our generic modal_dialog helper with the trigger and a title. %>
     <%= modal_dialog trigger, title: "Menu", size: '12rem' do %>
-      <div class="menu" data-controller="menu" data-action="keydown->menu#navigate" role="menu">
+      <div class="menu gap-2" data-controller="menu" data-action="keydown->menu#navigate" role="menu">
         
         <span class="inline-flex items-center gap-2 overflow-ellipsis max-i-full font-semibold">
           <span><%= current_user.name %></span>
