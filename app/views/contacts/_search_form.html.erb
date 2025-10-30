@@ -43,9 +43,9 @@
       </div>
 
       <%# --- Form Actions --- %>
-      <div class="flex items-center gap">
+      <div class="flex items-center justify-end gap">
         <%= link_to "Reset", contacts_path, class: "btn" if params.has_key?(:q) %>
-        <%= f.submit "Search", class: "btn btn--primary mis-auto" %>
+        <%= f.submit "Search", class: "btn btn--primary" %>
       </div>
     <% end %>
   </div>
