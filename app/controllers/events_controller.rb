@@ -19,31 +19,34 @@ class EventsController < DashboardController
   end
 
   def show
-    # The base of our query is all invitations for the current event
     base_invitations = @event.invitations.includes(:contact)
-
-    # Apply Ransack search to the base query
     @invitations_search = base_invitations.ransack(params[:q])
-
-    # Get the full list of filtered invitations (before pagination)
     filtered_invitations = @invitations_search.result
-    # --------------------------------
 
-    # --- Calculate stats based on the FILTERED list ---
-    # This ensures stats are accurate for the current search results
+    # --- Calculate stats using a single, efficient database query ---
+    # This groups by status and counts the occurrences.
+    status_counts = filtered_invitations.group(:status).count
+
+    # The result is a hash like {"accepted" => 10, "attended" => 50}
+    # We merge it with a hash of defaults to ensure all keys are present.
     @stats = {
-      accepted: filtered_invitations.select(&:accepted?).count,
-      attended: filtered_invitations.select(&:attended?).count,
-      declined: filtered_invitations.select(&:declined?).count,
-      total: filtered_invitations.count
-    }
+      invited: 0, # Assuming you have an 'invited' status
+      accepted: 0,
+      attended: 0,
+      declined: 0
+    }.merge(status_counts.transform_keys(&:to_sym)) # <-- THE FIX IS HERE
 
-    # --- NOW, apply pagination to the filtered list for display ---
+    # The total can be derived from the hash or a separate count query.
+    # Using the hash is more memory-efficient.
+    @stats[:total] = @stats.values.sum
+    
+    # The rest of your code is perfect.
     @pagy, @invitations = pagy(filtered_invitations.order("contacts.first_name ASC"))
 
-    # This part for the form remains the same
     @new_invitation = @event.invitations.build
-    invited_contact_ids = @event.invitations.pluck(:contact_id) # Pluck from original event
+    
+    invited_contact_ids = base_invitations.map(&:contact_id)
+    
     @available_contacts = current_user.contacts.where.not(id: invited_contact_ids).order(:first_name)
   end
 

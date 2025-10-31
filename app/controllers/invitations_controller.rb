@@ -8,16 +8,34 @@ class InvitationsController < DashboardController
     contact_ids = params.dig(:invitation, :contact_ids)&.reject(&:blank?)
 
     if contact_ids.present?
-      @new_invitations = contact_ids.map do |contact_id|
-        @event.invitations.create(contact_id: contact_id)
+      # Prepare the attributes for a single, efficient bulk-insert query.
+      # This avoids making one database call for every contact invited.
+      timestamp = Time.current
+      invitations_attributes = contact_ids.map do |contact_id|
+        {
+          event_id: @event.id,
+          contact_id: contact_id,
+          created_at: timestamp,
+          updated_at: timestamp
+        }
       end
 
+      # Perform the bulk insert.
+      Invitation.insert_all(invitations_attributes)
+
+      # For the Turbo Stream response, we need to fetch the Invitation objects
+      # that were just created so we can append them to the page.
+      @new_invitations = @event.invitations.where(contact_id: contact_ids).includes(:contact)
+
       respond_to do |format|
+        # The turbo_stream.erb file can now iterate over @new_invitations
+        # to append each one to the invitations list.
         format.turbo_stream
         format.html { redirect_to @event, notice: "#{contact_ids.count} invitations sent." }
       end
     else
-      redirect_to @event, alert: "No contacts selected."
+      # Handle the case where the user submitted the form without selecting anyone.
+      redirect_to @event, alert: "No contacts were selected."
     end
   end
 
