@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "pages#home"
+  root "dashboard#show"
   get  "sign_in", to: "sessions#new"
   post "sign_in", to: "sessions#create"
   get  "sign_up", to: "registrations#new"
@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     resources :interaction_logs, only: [:new, :create], shallow: true
   end
 
-  get "event/month", to: "events#month", as: :event_month
+  resource :dashboard, only: [:show]
 
   get "/home", to: "pages#home", as: :home
   get "/pricing", to: "pages#pricing", as: :pricing

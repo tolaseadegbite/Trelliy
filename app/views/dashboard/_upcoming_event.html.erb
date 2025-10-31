@@ -1,0 +1,9 @@
+<%= link_to event_path(upcoming_event), class: "card flex items-center justify-between gap", id: dom_id(upcoming_event) do %>
+  <div>
+    <p class="font-medium"><%= upcoming_event.name %></p>
+    <p class="text-sm text-subtle">
+      <%= upcoming_event.starts_at.strftime("%A, %B %d at %l:%M %p") %>
+    </p>
+  </div>
+  <span class="text-subtle">→</span>
+<% end %>
