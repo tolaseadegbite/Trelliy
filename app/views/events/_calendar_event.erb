@@ -1,6 +1,6 @@
 <div class="rounded-md bg-sky-500 m-1 text-center">
   <div class="flex flex-col gap- p-2 text-center">
-    <h4 class="font-semibold"><%= event.name %></h4>
+    <h4 class="font-semibold"><%= link_to event.name, event, data: { turbo_frame: "_top" } %></h4>
     
     <span class="flex gap-2 items-center justify-center bg-emerald- p-3 rounded-md shadow-">
       <span class="flex gap-1 text-sm items-center bg-green- p-1 rounded-">

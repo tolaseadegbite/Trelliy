@@ -8,7 +8,7 @@
       Follow up with <%= follow_up_task.invitation.contact.full_name %>
     <% end %>
     <p class="text-sm text-subtle">
-      from the event: <%= link_to follow_up_task.invitation.event.name, follow_up_task.invitation.event, class: "text-link" %>
+      from the event: <%= link_to follow_up_task.invitation.event.name, follow_up_task.invitation.event, class: "text-link", data: { turbo_frame: "_top" } %>
     </p>
   </div>
 

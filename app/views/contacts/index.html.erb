@@ -1,17 +1,19 @@
 <% content_for :title, "Contacts" %>
+<% content_for :page_header do %>
+  <h2 class="font-semibold">Contacts</h2>
+<% end %>
+
 <% content_for :header_action_buttons do %>
-  <h2 class="font-semibold">Personal Contacts</h2>
-  
-  <%= link_to "New contact", new_contact_path,
-                class: "btn btn--primary",
-                data: { turbo_frame: "modal" } %>
+    <%= link_to "New contact", new_contact_path,
+                  class: "btn btn--primary",
+                  data: { turbo_frame: "modal" } %>
 <% end %>
 
 <div class="flex flex-col p-4 i-full">
-  <div class="flex items-center justify-between mbe-4 hide@md">
+  <!--<div class="flex items-center justify-between mbe-4 hide@md">
     <h1 class="font-semibold text-2xl">Contacts</h1>
     <%= link_to "New Contact", new_contact_path, class: "btn btn--primary text-md", data: { turbo_frame: "modal" } %>
-  </div>
+  </div>-->
 
   <%= render "contacts/search_form" %>
 
@@ -19,7 +21,7 @@
     
     <%# --- DESKTOP VIEW: Table (Visible on medium screens and up) --- %>
     <div class="show@md">
-      <div class="relative i-full overflow-x-auto border rounded-md mbe-4">
+      <div class="relative i-full overflow-x-auto border rounded-md bg-surface mbe-4">
         <table class="table" data-controller="check-all">
           <%# FIX: Removed duplicated <thead> tag %>
           <thead>

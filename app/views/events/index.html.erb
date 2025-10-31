@@ -1,17 +1,20 @@
 <% content_for :title, "Events" %>
+<% content_for :page_header do %>
+  <h2 class="font-semibold">Events</h2>
+<% end %>
+
 <% content_for :header_action_buttons do %>
-  <h2 class="font-semibold">Personal Events</h2>
-  
+      
   <%= link_to "New event", new_event_path,
                 class: "btn btn--primary",
                 data: { turbo_frame: "modal" } %>
 <% end %>
 
 <div id="events-page" class="flex flex-col p-4 i-full">
-  <div class="flex items-center justify-between mbe-4 hide@md">
+  <!--<div class="flex items-center justify-between mbe-4 hide@md">
     <h1 class="font-semibold text-2xl">Events</h1>
     <%= link_to "New Event", new_event_path, class: "btn btn--primary text-md", data: { turbo_frame: "modal" } %>
-  </div>
+  </div>-->
   
   <nav class="tabs__list mbe-4" aria-label="Events list and calendar" style="max-inline-size: 500px">
     <%# The Events list tab is "current" if the view is anything other than 'calendar' %>
