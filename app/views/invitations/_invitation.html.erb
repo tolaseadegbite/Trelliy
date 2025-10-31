@@ -8,7 +8,7 @@
         <div class="flex shrink-0 overflow-hidden rounded-full border border-subtle">
           <%= image_tag "avatar.jpg", size: 40, alt: "User Avatar border border-main" %>
         </div>
-        <div>
+        <div style="max-width: 40dvw">
           <p class="font-medium text-primary"><%= invitation.contact.full_name %></p>
           <p class="text-sm text-subtle"><%= invitation.contact.email %></p>
           <p class="text-sm text-subtle">Invited on: <%= invitation.created_at.strftime("%A, %B %d, %Y") %></p>
